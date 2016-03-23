@@ -9,3 +9,10 @@ export function login(email, password) {
         payload: request
     }
 }
+
+export function authenticateUser(token) {
+    return {
+        type: actionTypes.authenticateUser,
+        token
+    }
+}

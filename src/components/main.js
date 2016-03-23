@@ -16,14 +16,19 @@ class Main extends React.Component {
         return (
             <View style={{flex: 1}}>
                 {(route.navigationBar) ?
-                    (
+                    <View>
+                        <StatusBar
+                            backgroundColor="red"
+                            barStyle="default"
+                        />
                         <NavigationBar
                             backgroundStyle={{backgroundColor: "#eee"}}
                             navigator={navigator}
                             route={route}
                             title={route.title}
                             titleColor="#333"
-                        /> ) :
+                        />
+                    </View> :
                     <StatusBar
                         backgroundColor="red"
                         barStyle="light-content"
@@ -46,7 +51,7 @@ class Main extends React.Component {
                 renderScene={this.renderScene}
                 initialRoute={{
           component: Login,
-          title: "Starter App",
+          title: "Login",
           navigationBar: false
         }}
             />

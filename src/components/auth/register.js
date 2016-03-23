@@ -10,25 +10,15 @@ import React, {
     TouchableOpacity,
     TouchableHighlight
 } from "react-native";
-import Dimensions from "Dimensions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import login from "./login";
 import app from "../../containers/App";
 
-const windowSize = Dimensions.get('window');
 var styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-        flex: 1,
-        backgroundColor: '#2D343D'
-    },
-    bg: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        width: windowSize.width,
-        height: windowSize.height,
+        flex: .5,
         backgroundColor: '#2D343D'
     },
     header: {

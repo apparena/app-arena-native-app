@@ -5,30 +5,20 @@ import React, {
     TextInput,
     View,
     WebView,
-    Component,
     Image,
     TouchableOpacity,
-    TouchableHighlight
+    TouchableHighlight,
+    AsyncStorage
 } from "react-native";
-import Dimensions from "Dimensions";
+import Component from "../../framework/component";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import signup from "./register";
 import app from "../../containers/App";
 
-const windowSize = Dimensions.get('window');
 var styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-        flex: 1,
-        backgroundColor: '#2D343D'
-    },
-    bg: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        width: windowSize.width,
-        height: windowSize.height,
+        flex: .5,
         backgroundColor: '#2D343D'
     },
     header: {
@@ -84,6 +74,14 @@ var styles = StyleSheet.create({
         alignItems: 'flex-end',
         padding: 15,
     },
+    errorContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    redBackground: {
+        backgroundColor: 'red'
+    },
     greyFont: {
         color: '#D8D8D8'
     },
@@ -93,22 +91,40 @@ var styles = StyleSheet.create({
 });
 
 class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+    getInitState() {
+        return ({
             email: 'v.klein@app-arena.com',
             password: '1234',
-            errorMessage: ''
-        };
+            errorMessage: '',
+        });
+    }
+
+    async _checkAuth() {
+        try {
+            var token = await AsyncStorage.getItem('token');
+            if (token !== null) {
+                this.props.authenticateUser(token);
+            }
+        } catch (error) {
+            this._appendMessage('AsyncStorage error: ' + error.message);
+        }
     }
 
     componentDidMount() {
-        console.log(this.props);
+        this._checkAuth().done();
+        if (this.props.auth.isAuthenticated) {
+            this.props.navigator.push({title: "Home", component: app, navigationBar: true});
+        }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.auth.token) {
+        if (nextProps.auth.status === 200) {
+            AsyncStorage.setItem('token', nextProps.auth.token);
             this.props.navigator.push({title: "Home", component: app, navigationBar: true});
+        } else {
+            this.setState({
+                errorMessage: nextProps.auth.statusText
+            })
         }
     }
 
@@ -119,25 +135,34 @@ class Login extends Component {
                     <Image style={styles.mark} source={require('../../../assets/img/apparena.png')}/>
                 </View>
                 <View style={styles.inputs}>
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.whiteFont}>{this.state.errorMessage}</Text>
+                    </View>
                     <View style={styles.inputContainer}>
                         <Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
                         <TextInput
+                            ref="email"
                             style={[styles.input, styles.whiteFont]}
-                            placeholder="Username"
+                            placeholder="Email"
                             placeholderTextColor="#FFF"
                             value={this.state.email}
-                            onChangeText={(text) => this.setState({email: text})}
+                            onChangeText={(text) => this.setState({email: text, errorMessage: ''})}
+                            keyboardType="email-address"
+                            returnKeyType="next"
+                            onSubmitEditing={(event) => {this.refs.password.focus()}}
                         />
                     </View>
                     <View style={styles.inputContainer}>
                         <Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/>
                         <TextInput
+                            ref="password"
                             password={true}
                             style={[styles.input, styles.whiteFont]}
-                            placeholder="Pasword"
+                            placeholder="Password"
                             placeholderTextColor="#FFF"
                             value={this.state.password}
-                            onChangeText={(text) => this.setState({password: text})}
+                            onChangeText={(text) => this.setState({password: text, errorMessage: ''})}
+                            returnKeyType="next"
                         />
                     </View>
                     <View style={styles.forgotContainer}>
@@ -164,7 +189,19 @@ class Login extends Component {
     }
 
     onPress() {
-        this.props.login(this.state.email, this.state.password);
+        if (this.state.email && this.state.password) {
+            this.props.login(this.state.email, this.state.password);
+        } else if (this.state.email) {
+            this.refs.password.focus();
+            this.setState({
+                errorMessage: 'Please add a Password'
+            })
+        } else {
+            this.refs.email.focus();
+            this.setState({
+                errorMessage: 'Please add a E-Mail'
+            })
+        }
     }
 }
 
