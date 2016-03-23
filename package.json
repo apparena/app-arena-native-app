@@ -1,0 +1,32 @@
+{
+  "name": "apparena",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "flow": "flow check",
+    "lint": "eslint --ext .js,.jsx src",
+    "start": "react-native start"
+  },
+  "dependencies": {
+    "axios": "^0.9.1",
+    "jwt-decode": "^2.0.1",
+    "lodash": "^3.10.1",
+    "lodash.filter": "^4.2.1",
+    "react-addons-update": "^0.14.7",
+    "react-native": "^0.21.0",
+    "react-redux": "^4.4.1",
+    "redux": "^3.0.2",
+    "redux-combine-actions": "^0.1.2",
+    "redux-logger": "^2.0.1",
+    "redux-promise": "^0.5.3",
+    "redux-thunk": "^1.0.3"
+  },
+  "devDependencies": {
+    "babel-preset-stage-0": "^6.5.0",
+    "concurrently": "^0.1.1",
+    "eslint": "^1.6.0",
+    "eslint-config-defaults": "^7.0.1",
+    "eslint-plugin-filenames": "^0.1.2",
+    "eslint-plugin-react": "^3.5.1"
+  }
+}

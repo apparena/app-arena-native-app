@@ -1,0 +1,5 @@
+var localConfig = {
+    example: 'bar'
+};
+
+export default localConfig;
