@@ -28,13 +28,21 @@ export default function authReducer(state = initialState, action = {}) {
                 })
             }
         case actionTypes.authenticateUser:
-            return Object.assign({}, state, {
-                'status': 200,
-                'isAuthenticating': false,
-                'isAuthenticated': true,
-                'token': action.token,
-                'userId': jwtDecode(action.token).userId,
-                'statusText': 'You have been successfully logged in.'
+            if (action.payload) {
+                return Object.assign({}, state, {
+                    'status': 200,
+                    'isAuthenticating': false,
+                    'isAuthenticated': true,
+                    'token': action.payload,
+                    'userId': jwtDecode(action.payload).userId,
+                    'statusText': 'You have been successfully logged in.'
+                });
+            } else {
+                return state;
+            }
+        case actionTypes.logoutUser:
+            return Object.assign({}, initialState, {
+                'statusText': 'You have been successfully logged out.'
             });
         default:
             return state;

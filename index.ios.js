@@ -1,8 +1,8 @@
 import React from "react-native";
-import Root from "./src/containers/Root";
+import AppContainer from "./src/containers";
 
 const {
   AppRegistry
 } = React;
 
-AppRegistry.registerComponent("apparena", () => Root);
+AppRegistry.registerComponent("apparena", () => AppContainer);

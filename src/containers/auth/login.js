@@ -13,7 +13,8 @@ import React, {
 import Component from "../../framework/component";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import app from "../../containers/App";
+import app from "../App";
+import register from "./register";
 
 var styles = StyleSheet.create({
     container: {
@@ -95,32 +96,30 @@ class Login extends Component {
         return ({
             email: 'v.klein@app-arena.com',
             password: '1234',
-            errorMessage: '',
+            errorMessage: ''
         });
     }
 
-    async _checkAuth() {
-        try {
-            var token = await AsyncStorage.getItem('token');
-            if (token !== null) {
-                this.props.authenticateUser(token);
-            }
-        } catch (error) {
-            this._appendMessage('AsyncStorage error: ' + error.message);
-        }
-    }
-
     componentDidMount() {
-        this._checkAuth().done();
         if (this.props.auth.isAuthenticated) {
-            this.props.navigator.push({title: "Home", component: app, navigationBar: true});
+            this.props.navigator.replace({
+                title: "Home",
+                component: app,
+                navigationBarHidden: false,
+                barStyle: "default"
+            });
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.auth.status === 200) {
             AsyncStorage.setItem('token', nextProps.auth.token);
-            this.props.navigator.push({title: "Home", component: app, navigationBar: true});
+            this.props.navigator.replace({
+                title: "Home",
+                component: app,
+                navigationBarHidden: false,
+                barStyle: "default"
+            });
         } else {
             this.setState({
                 errorMessage: nextProps.auth.statusText
@@ -185,7 +184,12 @@ class Login extends Component {
     }
 
     onSignupPress() {
-        this.props.navigator.push({title: "Signup", component: signup});
+        this.props.navigator.replace({
+            title: "Register",
+            component: register,
+            navigationBarHidden: true,
+            barStyle: "light-content"
+        });
     }
 
     onPress() {

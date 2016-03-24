@@ -11,8 +11,17 @@ export function login(email, password) {
 }
 
 export function authenticateUser(token) {
+    let request = AsyncStorage.getItem('token');
     return {
         type: actionTypes.authenticateUser,
-        token
+        payload: request
+    }
+}
+
+export function logout() {
+    let request = AsyncStorage.removeItem('token');
+    return {
+        type: actionTypes.logoutUser,
+        payload: request
     }
 }

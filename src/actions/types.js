@@ -1,6 +1,7 @@
 export default {
     //Auth
     loginUser: 'LOGIN_USER',
+    logoutUser: 'LOGOUT_USER',
     authenticateUser: 'AUTHENTICATE_USER',
     // Overlays
     addOverlay: 'ADD_OVERLAY',

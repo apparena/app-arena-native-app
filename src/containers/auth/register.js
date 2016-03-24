@@ -13,7 +13,7 @@ import React, {
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import login from "./login";
-import app from "../../containers/App";
+import app from "../App";
 
 var styles = StyleSheet.create({
     container: {
@@ -82,7 +82,7 @@ var styles = StyleSheet.create({
     }
 });
 
-class Login extends Component {
+class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -93,12 +93,24 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
+        if (this.props.auth.isAuthenticated) {
+            this.props.navigator.replace({
+                title: "Home",
+                component: app,
+                navigationBarHidden: false,
+                barStyle: "default"
+            });
+        }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.auth.token) {
-            this.props.navigator.push({title: "Home", component: app, navigationBar: true});
+        if (nextProps.auth.isAuthenticated) {
+            nextProps.navigator.replace({
+                title: "Home",
+                component: app,
+                navigationBarHidden: false,
+                barStyle: "default"
+            });
         }
     }
 
@@ -158,7 +170,12 @@ class Login extends Component {
     }
 
     onLoginPress() {
-        this.props.navigator.push({title: "Login", component: login});
+        this.props.navigator.replace({
+            title: "Login",
+            component: login,
+            navigationBarHidden: true,
+            barStyle: "light-content"
+        });
     }
 
     onPress() {
@@ -174,4 +191,4 @@ export default connect(
     (dispatch) => ({
         ...bindActionCreators(authActions, dispatch)
     })
-)(Login);
+)(Register);
