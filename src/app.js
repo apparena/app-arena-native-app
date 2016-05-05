@@ -66,8 +66,8 @@ export default class App {
                         {
                             label: 'News',
                             screen: 'lists.News',
-                            icon: require('../assets/img/one.png'),
-                            selectedIcon: require('../assets/img/one_selected.png'),
+                            icon: require('../assets/img/news.png'),
+                            selectedIcon: require('../assets/img/news_selected.png'),
                             title: 'News',
                             navigatorStyle: {
                                 drawUnderNavBar: true,
@@ -79,9 +79,22 @@ export default class App {
                         {
                             label: 'Apps',
                             screen: 'lists.Apps',
-                            icon: require('../assets/img/two.png'),
-                            selectedIcon: require('../assets/img/two_selected.png'),
+                            icon: require('../assets/img/apps.png'),
+                            selectedIcon: require('../assets/img/apps_selected.png'),
                             title: 'Apps',
+                            navigatorStyle: {
+                                drawUnderNavBar: true,
+                                navBarTextColor: '#ffffff',
+                                navBarBackgroundColor: '#2D343D',
+                                statusBarTextColorScheme: 'light'
+                            }
+                        },
+                        {
+                            label: 'Support',
+                            screen: 'auth.ProfileScreen',
+                            icon: require('../assets/img/support.png'),
+                            selectedIcon: require('../assets/img/support_selected.png'),
+                            title: 'Support',
                             navigatorStyle: {
                                 drawUnderNavBar: true,
                                 navBarTextColor: '#ffffff',
@@ -92,8 +105,8 @@ export default class App {
                         {
                             label: 'User',
                             screen: 'auth.ProfileScreen',
-                            icon: require('../assets/img/two.png'),
-                            selectedIcon: require('../assets/img/two_selected.png'),
+                            icon: require('../assets/img/user.png'),
+                            selectedIcon: require('../assets/img/user_selected.png'),
                             title: 'Profile',
                             navigatorStyle: {
                                 drawUnderNavBar: true,
