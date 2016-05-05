@@ -18,25 +18,35 @@ export default function authReducer(state = initialState, action = {}) {
                     'isAuthenticating': false,
                     'isAuthenticated': true,
                     'token': action.payload.data[0],
-                    'userId': jwtDecode(action.payload.data[0]).userId,
                     'statusText': 'You have been successfully logged in.'
-                });
+                }, jwtDecode(action.payload.data[0]));
             } else {
                 return Object.assign({}, state, {
                     'status': action.payload.data.status,
                     'statusText': action.payload.data.message
                 })
             }
-        case actionTypes.authenticateUser:
+        case actionTypes.checkAuthentication:
             if (action.payload) {
                 return Object.assign({}, state, {
                     'status': 200,
                     'isAuthenticating': false,
                     'isAuthenticated': true,
                     'token': action.payload,
-                    'userId': jwtDecode(action.payload).userId,
                     'statusText': 'You have been successfully logged in.'
-                });
+                }, jwtDecode(action.payload));
+            } else {
+                return state;
+            }
+        case actionTypes.authenticate:
+            if (action.token) {
+                return Object.assign({}, state, {
+                    'status': 200,
+                    'isAuthenticating': false,
+                    'isAuthenticated': true,
+                    'token': action.token,
+                    'statusText': 'You have been successfully logged in.'
+                }, jwtDecode(action.token));
             } else {
                 return state;
             }

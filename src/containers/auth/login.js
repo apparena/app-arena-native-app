@@ -1,3 +1,4 @@
+import * as appActions from "../../actions/app";
 import * as authActions from "../../actions/auth";
 import React, {
     StyleSheet,
@@ -13,8 +14,6 @@ import React, {
 import Component from "../../framework/component";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import app from "../App";
-import register from "./register";
 
 var styles = StyleSheet.create({
     container: {
@@ -94,32 +93,16 @@ var styles = StyleSheet.create({
 class Login extends Component {
     getInitState() {
         return ({
-            email: 'v.klein@app-arena.com',
+            email: 'test@app-arena.com',
             password: '1234',
             errorMessage: ''
         });
     }
 
-    componentDidMount() {
-        if (this.props.auth.isAuthenticated) {
-            this.props.navigator.replace({
-                title: "Home",
-                component: app,
-                navigationBarHidden: false,
-                barStyle: "default"
-            });
-        }
-    }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.auth.status === 200) {
             AsyncStorage.setItem('token', nextProps.auth.token);
-            this.props.navigator.replace({
-                title: "Home",
-                component: app,
-                navigationBarHidden: false,
-                barStyle: "default"
-            });
+            this.props.changeAppRoot('after-login');
         } else {
             this.setState({
                 errorMessage: nextProps.auth.statusText
@@ -164,9 +147,6 @@ class Login extends Component {
                             returnKeyType="next"
                         />
                     </View>
-                    <View style={styles.forgotContainer}>
-                        <Text style={styles.greyFont}>Forgot Password</Text>
-                    </View>
                 </View>
                 <TouchableOpacity onPress={this.onPress.bind(this)}>
                     <View style={styles.signin}>
@@ -175,7 +155,7 @@ class Login extends Component {
                 </TouchableOpacity>
                 <View style={styles.signup}>
                     <Text style={styles.greyFont}>Don't have an account? </Text>
-                    <TouchableHighlight onPress={this.onSignupPress.bind(this)}>
+                    <TouchableHighlight onPress={this.routeToSignup.bind(this)}>
                         <Text style={styles.whiteFont}> Sign Up</Text>
                     </TouchableHighlight>
                 </View>
@@ -183,12 +163,10 @@ class Login extends Component {
         );
     }
 
-    onSignupPress() {
-        this.props.navigator.replace({
+    routeToSignup() {
+        this.props.navigator.resetTo({
             title: "Register",
-            component: register,
-            navigationBarHidden: true,
-            barStyle: "light-content"
+            screen: "auth.RegisterScreen"
         });
     }
 
@@ -215,6 +193,7 @@ export default connect(
         auth: state.auth
     }),
     (dispatch) => ({
+        ...bindActionCreators(appActions, dispatch),
         ...bindActionCreators(authActions, dispatch)
     })
 )(Login);

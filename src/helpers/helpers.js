@@ -1,9 +1,8 @@
 import React, {AsyncStorage, PickerIOS, Text, View} from "react-native";
-import axios from 'axios';
-import config from '../config/global';
+import axios from "axios";
+import config from "../config/global";
 
 axios.defaults.baseURL = config.api_base_url;
-axios.defaults.headers.common['Authorization'] = `Bearer ${AsyncStorage.getItem("token")}`;
 
 export function updateConfigValueAction(appId, identifier, value) {
     return axios.put(`${config.api_app_route}/${appId}/configs/${identifier}`,
@@ -28,6 +27,22 @@ export function updateWizardAction(appId, wizardJson) {
         {headers: config.api.headers});
 }
 
+export function getCurrentUserAction(companyId, userId) {
+    return axios.get(`${config.api_company_route}/${companyId}/users/${userId}`,
+        {headers: config.api.headers}).then((dataObj) => {
+        return dataObj;
+    });
+}
+
+export function getNewsAction() {
+    return axios.get(`https://blog.app-arena.com/wp-json/wp/v2/posts?categories=545`,
+        {headers: config.api.headers}).then((dataObj) => {
+        return dataObj;
+    });
+}
+
+
+
 export function updateTranslationStringAction(appId, identifier, translation) {
     return axios.put(`${config.api_app_route}/${appId}/translations/${identifier}`,
         {
@@ -51,7 +66,7 @@ export function getConfigElement(appId, identifier) {
 }
 
 export function getAllMediaAction(companyId, types = "") {
-    var params = Object.assign({headers: config.api.headers}, {params:{types}});
+    var params = Object.assign({headers: config.api.headers}, {params: {types}});
     return axios.get(`${config.api_company_route}/${companyId}/media`, params
     ).then((dataObj) => {
         return dataObj;
@@ -77,6 +92,17 @@ export function getAllConfig(appId) {
 export function getAppInfoAction(appId) {
     return axios.get(`${config.api_app_route}/${appId}`,
         {headers: config.api.headers}).then((dataObj) => {
+        return dataObj;
+    }).catch((response) => {
+        console.log(response);
+    });
+}
+
+export function getApps(token, params) {
+    params = params || {};
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    return axios.get(`${config.api_app_route}`,
+        {params: params, headers: config.api.headers}).then((dataObj) => {
         return dataObj;
     }).catch((response) => {
         console.log(response);

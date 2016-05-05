@@ -5,15 +5,13 @@ import React, {
     TextInput,
     View,
     WebView,
-    Component,
     Image,
     TouchableOpacity,
     TouchableHighlight
 } from "react-native";
+import Component from "../../framework/component";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import login from "./login";
-import app from "../App";
 
 var styles = StyleSheet.create({
     container: {
@@ -83,35 +81,12 @@ var styles = StyleSheet.create({
 });
 
 class Register extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+    getInitState() {
+        return ({
             email: 'v.klein@app-arena.com',
             password: '1234',
             errorMessage: ''
-        };
-    }
-
-    componentDidMount() {
-        if (this.props.auth.isAuthenticated) {
-            this.props.navigator.replace({
-                title: "Home",
-                component: app,
-                navigationBarHidden: false,
-                barStyle: "default"
-            });
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.auth.isAuthenticated) {
-            nextProps.navigator.replace({
-                title: "Home",
-                component: app,
-                navigationBarHidden: false,
-                barStyle: "default"
-            });
-        }
+        });
     }
 
     render() {
@@ -161,7 +136,7 @@ class Register extends Component {
                 </TouchableOpacity>
                 <View style={styles.signup}>
                     <Text style={styles.greyFont}>Allready an Account? </Text>
-                    <TouchableHighlight onPress={this.onLoginPress.bind(this)}>
+                    <TouchableHighlight onPress={this.routeToLogin.bind(this)}>
                         <Text style={styles.whiteFont}> Login</Text>
                     </TouchableHighlight>
                 </View>
@@ -169,12 +144,10 @@ class Register extends Component {
         );
     }
 
-    onLoginPress() {
-        this.props.navigator.replace({
+    routeToLogin() {
+        this.props.navigator.resetTo({
             title: "Login",
-            component: login,
-            navigationBarHidden: true,
-            barStyle: "light-content"
+            screen: 'auth.LoginScreen',
         });
     }
 

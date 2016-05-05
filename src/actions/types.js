@@ -1,14 +1,22 @@
 export default {
+    //App
+    initialized: 'INITIALIZED',
+    rootChanged: 'ROOT_CHANGED',
     //Auth
     loginUser: 'LOGIN_USER',
     logoutUser: 'LOGOUT_USER',
-    authenticateUser: 'AUTHENTICATE_USER',
-    // Overlays
+    checkAuthentication: 'CHECK_AUTHENTICATION',
+    authenticate: 'AUTHENTICATE',
+    //Counter
+    increment: 'INCREMENT',
+    decrement: 'DECREMENT',
+    //Overlays
     addOverlay: 'ADD_OVERLAY',
     closeOverlay: 'CLOSE_OVERLAY',
     //Locale
     setLocale: 'SET_LOCALE',
     //Init
+    getUserApps: 'GET_USER_APPS',
     getAppInfo: 'GET_APP_INFO',
     initAppArenaConfig: 'INIT_APPARENA_CONFIG',
     initAppArenaWizard: 'INIT_APPARENA_WIZARD',
@@ -34,5 +42,9 @@ export default {
     deleteWizardStep: 'Delete_WIZARD_STEP',
     //Display Actions
     toggleSidebar: 'TOGGLE_SIDEBAR',
-    toggleSearch: 'TOGGLE_SEARCH'
+    toggleSearch: 'TOGGLE_SEARCH',
+    //User
+    getCurrentUser: 'GET_CURRENT_USER',
+    //News
+    getNews: 'GET_NEWS'
 }

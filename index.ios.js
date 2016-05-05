@@ -1,8 +1,3 @@
-import React from "react-native";
-import AppContainer from "./src/containers";
+import App from './src/app';
 
-const {
-  AppRegistry
-} = React;
-
-AppRegistry.registerComponent("apparena", () => AppContainer);
+const app = new App();
