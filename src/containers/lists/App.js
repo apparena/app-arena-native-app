@@ -1,11 +1,13 @@
 /* @flow */
 /*eslint-disable prefer-const */
 import * as appsActions from "../../actions/apps";
-import React, {StyleSheet, Text, ListView, View} from "react-native";
+import React from 'react';
+import {StyleSheet, Text, ListView, View} from "react-native";
 import Component from "../../framework/component";
+import I18n from 'react-native-i18n';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import AppListItem from "../../components/AppListItem";
+import AppListItem from "../../components/lists/listItems/AppListItem";
 
 class AppList extends Component {
     getInitState() {

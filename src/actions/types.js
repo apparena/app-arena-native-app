@@ -2,6 +2,7 @@ export default {
     //App
     initialized: 'INITIALIZED',
     rootChanged: 'ROOT_CHANGED',
+    addIcon: 'ADD_ICON',
     //Auth
     loginUser: 'LOGIN_USER',
     logoutUser: 'LOGOUT_USER',

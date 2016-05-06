@@ -1,9 +1,11 @@
 import * as configActions from "../../actions/config";
-import React, {ListView, Text, View, StyleSheet, Touch, InteractionManager} from "react-native";
+import React from 'react';
+import {ListView, Text, View, StyleSheet, Touch, InteractionManager} from "react-native";
 import Component from "../../framework/component";
+import I18n from 'react-native-i18n';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import StepListItem from "./StepListItem";
+import StepListItem from "../../components/lists/listItems/StepListItem";
 
 class Wizard extends Component {
     getInitState() {

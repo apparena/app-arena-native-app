@@ -1,5 +1,6 @@
 import * as authActions from "../../actions/auth";
-import React, {
+import React from 'react';
+import {
     StyleSheet,
     Text,
     TextInput,
@@ -10,8 +11,10 @@ import React, {
     TouchableHighlight
 } from "react-native";
 import Component from "../../framework/component";
+import I18n from "react-native-i18n";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 var styles = StyleSheet.create({
     container: {
@@ -97,32 +100,32 @@ class Register extends Component {
                 </View>
                 <View style={styles.inputs}>
                     <View style={styles.inputContainer}>
-                        <Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
+                        <Icon style={styles.inputUsername} name="user" size={22} color="#fff"/>
                         <TextInput
                             style={[styles.input, styles.whiteFont]}
-                            placeholder="Username"
+                            placeholder={I18n.t("Username")}
                             placeholderTextColor="#FFF"
                             value={this.state.email}
                             onChangeText={(text) => this.setState({email: text})}
                         />
                     </View>
                     <View style={styles.inputContainer}>
-                        <Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/>
+                        <Icon style={styles.inputPassword} name="lock" size={22} color="#fff"/>
                         <TextInput
                             password={true}
                             style={[styles.input, styles.whiteFont]}
-                            placeholder="Pasword"
+                            placeholder={I18n.t("Pasword")}
                             placeholderTextColor="#FFF"
                             value={this.state.password}
                             onChangeText={(text) => this.setState({password: text})}
                         />
                     </View>
                     <View style={styles.inputContainer}>
-                        <Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/>
+                        <Icon style={styles.inputPassword} name="lock" size={22} color="#fff"/>
                         <TextInput
                             password={true}
                             style={[styles.input, styles.whiteFont]}
-                            placeholder="Pasword"
+                            placeholder={I18n.t("Pasword")}
                             placeholderTextColor="#FFF"
                             value={this.state.password}
                             onChangeText={(text) => this.setState({password: text})}
@@ -131,13 +134,13 @@ class Register extends Component {
                 </View>
                 <TouchableOpacity onPress={this.onPress.bind(this)}>
                     <View style={styles.signin}>
-                        <Text style={styles.whiteFont}>Sign In</Text>
+                        <Text style={styles.whiteFont}>{I18n.t('register')}</Text>
                     </View>
                 </TouchableOpacity>
                 <View style={styles.signup}>
-                    <Text style={styles.greyFont}>Allready an Account? </Text>
+                    <Text style={styles.greyFont}>{I18n.t('already_account')}</Text>
                     <TouchableHighlight onPress={this.routeToLogin.bind(this)}>
-                        <Text style={styles.whiteFont}> Login</Text>
+                        <Text style={styles.whiteFont}>{I18n.t('login')}</Text>
                     </TouchableHighlight>
                 </View>
             </View>
@@ -147,7 +150,7 @@ class Register extends Component {
     routeToLogin() {
         this.props.navigator.resetTo({
             title: "Login",
-            screen: 'auth.LoginScreen',
+            screen: 'auth.LoginScreen'
         });
     }
 

@@ -1,4 +1,5 @@
-import React, {AsyncStorage, PickerIOS, Text, View} from "react-native";
+import React from 'react';
+import {AsyncStorage, PickerIOS, Text, View} from "react-native";
 import axios from "axios";
 import config from "../config/global";
 
@@ -35,7 +36,7 @@ export function getCurrentUserAction(companyId, userId) {
 }
 
 export function getNewsAction() {
-    return axios.get(`https://blog.app-arena.com/wp-json/wp/v2/posts?categories=545`,
+    return axios.get(`https://blog.app-arena.com/wp-json/wp/v2/posts?categories=545&_embed`,
         {headers: config.api.headers}).then((dataObj) => {
         return dataObj;
     });

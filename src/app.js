@@ -4,12 +4,15 @@ import {Navigation} from "react-native-navigation";
 import * as appActions from "./actions/app";
 import configureStore from "./helpers/configure-store";
 import {registerScreens} from "./containers/index";
+import {registerTranslation} from "./i18n/translations";
 
 const state = window.__initialState;
 const store = configureStore(state);
 
 // screen related book keeping
 registerScreens(store, Provider);
+//Init Language-Translation
+registerTranslation();
 
 // notice that this is just a simple class, it's not a React component
 export default class App {
@@ -20,21 +23,20 @@ export default class App {
     }
 
     onStoreUpdate() {
-        let {root} = store.getState().app;
+        let {root, icons} = store.getState().app;
         const {isAuthenticated} = store.getState().auth;
         if (!isAuthenticated) {
             root = "login";
         }
-
         // handle a root change
         // if your app doesn't change roots in runtime, you can remove onStoreUpdate() altogether
         if (this.currentRoot != root) {
             this.currentRoot = root;
-            this.startApp(root);
+            this.startApp(root, icons);
         }
     }
 
-    startApp(root) {
+    startApp(root, icons) {
         switch (root) {
             case 'login':
                 Navigation.startSingleScreenApp({
@@ -66,8 +68,8 @@ export default class App {
                         {
                             label: 'News',
                             screen: 'lists.News',
-                            icon: require('../assets/img/news.png'),
-                            selectedIcon: require('../assets/img/news_selected.png'),
+                            icon: icons.world,
+                            selectedIcon: icons.world_selected,
                             title: 'News',
                             navigatorStyle: {
                                 drawUnderNavBar: true,
@@ -79,8 +81,8 @@ export default class App {
                         {
                             label: 'Apps',
                             screen: 'lists.Apps',
-                            icon: require('../assets/img/apps.png'),
-                            selectedIcon: require('../assets/img/apps_selected.png'),
+                            icon: icons.list,
+                            selectedIcon: icons.list_selected,
                             title: 'Apps',
                             navigatorStyle: {
                                 drawUnderNavBar: true,
@@ -91,9 +93,9 @@ export default class App {
                         },
                         {
                             label: 'Support',
-                            screen: 'auth.ProfileScreen',
-                            icon: require('../assets/img/support.png'),
-                            selectedIcon: require('../assets/img/support_selected.png'),
+                            screen: 'elements.SupportScreen',
+                            icon: icons.chatboxes,
+                            selectedIcon: icons.chatboxes_selected,
                             title: 'Support',
                             navigatorStyle: {
                                 drawUnderNavBar: true,
@@ -105,8 +107,8 @@ export default class App {
                         {
                             label: 'User',
                             screen: 'auth.ProfileScreen',
-                            icon: require('../assets/img/user.png'),
-                            selectedIcon: require('../assets/img/user_selected.png'),
+                            icon: icons.person,
+                            selectedIcon: icons.person_selected,
                             title: 'Profile',
                             navigatorStyle: {
                                 drawUnderNavBar: true,
@@ -117,7 +119,10 @@ export default class App {
                         }
                     ],
                     animationType: 'slide-down',
-                    title: 'App-Arena'
+                    title: 'App-Arena',
+                    tabsStyle: { // optional, add this if you want to style the tab bar beyond the defaults
+                        tabBarButtonColor: '#2D343D'
+                    }
                 });
                 return;
             default:

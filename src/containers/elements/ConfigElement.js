@@ -7,19 +7,19 @@ import I18n from 'react-native-i18n';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-
 // this is a traditional React component connected to the redux store
-class Profile extends Component {
+class ConfigElement extends Component {
     static navigatorButtons = {
         rightButtons: [
             {
-                title: 'Logout', // for a textual button, provide the button title (label)
-                id: 'logout', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                title: 'Speichern', // for a textual button, provide the button title (label)
+                id: 'save', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
                 disabled: false // optional, used to disable the button (appears faded and doesn't interact)
             }
         ]
     };
-    constructor (props, children) {
+
+    constructor(props, children) {
         super(props, children);
         this.state = this.getInitState ? this.getInitState() : {};
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -27,61 +27,35 @@ class Profile extends Component {
 
     getInitState() {
         return ({
-            renderPlaceholderOnly: true,
             user: {}
         });
     }
 
-    componentDidMount() {
-        if (this.props.auth.isAuthenticated) {
-            this.props.getCurrentUser(2, this.props.auth.userId);
-        }
-    }
-
-    shouldComponentUpdate(nextProps) {
-        return (
-            this.props.user !== nextProps.user
-        )
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.user) {
-            this.setState({
-                renderPlaceholderOnly: false,
-                user: nextProps.user[2]
-            })
-        }
-    }
-
-
     onNavigatorEvent(event) {
         if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
-            if (event.id == 'logout') { // this is the same id field from the static navigatorButtons definition
+            if (event.id == 'save') { // this is the same id field from the static navigatorButtons definition
                 this.props.logout();
             }
         }
     }
 
     render() {
-        if (this.state.renderPlaceholderOnly) {
-            return this._renderPlaceholderView();
-        }
-
         return (
             <View style={styles.page}>
-                <Text>
-                    {this.state.user.firstName}
-                </Text>
+                {this._renderDescription()}
             </View>
         );
     }
 
-    _renderPlaceholderView() {
-        return (
-            <View>
-                <Text>Loading...</Text>
-            </View>
-        );
+
+    _renderDescription() {
+        if (this.props.data.description) {
+            return (
+                <Text style={styles.rowTextDesc}>
+                    {this.props.data.description}
+                </Text>
+            )
+        }
     }
 }
 
@@ -111,4 +85,4 @@ export default connect(
         ...bindActionCreators(authActions, dispatch),
         ...bindActionCreators(userActions, dispatch)
     })
-)(Profile);
+)(ConfigElement);

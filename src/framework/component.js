@@ -1,9 +1,8 @@
-import React from "react-native";
+import {Component} from "react";
 
-export default class BaseComponent extends React.Component {
-    constructor (props, children) {
+export default class BaseComponent extends Component {
+    constructor(props, children) {
         super(props, children);
         this.state = this.getInitState ? this.getInitState() : {};
     }
-
 }

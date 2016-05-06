@@ -1,5 +1,6 @@
 import * as wizardActions from "../../actions/wizard";
-import React, {
+import React from 'react';
+import {
     ListView,
     Text,
     View,
@@ -10,9 +11,10 @@ import React, {
     InteractionManager
 } from "react-native";
 import Component from "../../framework/component";
+import I18n from 'react-native-i18n';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import WizardListItem from "../../components/WizardListItem";
+import WizardListItem from "../../components/lists/listItems/WizardListItem";
 
 class Wizard extends Component {
     getInitState() {

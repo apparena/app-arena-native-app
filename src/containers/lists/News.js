@@ -1,10 +1,12 @@
 /* @flow */
 /*eslint-disable prefer-const */
 import * as newsActions from "../../actions/news";
-import React, {StyleSheet, Text, ListView, View, WebView} from "react-native";
+import React from "react";
+import {StyleSheet, Text, ListView, View, WebView} from "react-native";
 import Component from "../../framework/component";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import NewsListItem from "../../components/lists/listItems/NewsListItem"
 
 class AppList extends Component {
     getInitState() {
@@ -41,9 +43,7 @@ class AppList extends Component {
 
     renderRow(rowData) {
         return (
-            <WebView
-                source={{uri: rowData.link}}
-            />
+            <NewsListItem {...this.props} rowData={rowData}/>
         );
     }
 
@@ -53,6 +53,10 @@ class AppList extends Component {
         } else {
             return (
                 <View style={styles.page}>
+                    <ListView
+                        dataSource={this.state.dataSource}
+                        renderRow={this.renderRow.bind(this)}
+                    />
                 </View>
             );
         }

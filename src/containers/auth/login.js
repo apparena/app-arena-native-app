@@ -1,6 +1,7 @@
 import * as appActions from "../../actions/app";
 import * as authActions from "../../actions/auth";
-import React, {
+import React from 'react';
+import {
     StyleSheet,
     Text,
     TextInput,
@@ -12,8 +13,10 @@ import React, {
     AsyncStorage
 } from "react-native";
 import Component from "../../framework/component";
+import I18n from "react-native-i18n";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 var styles = StyleSheet.create({
     container: {
@@ -104,8 +107,15 @@ class Login extends Component {
             AsyncStorage.setItem('token', nextProps.auth.token);
             this.props.changeAppRoot('after-login');
         } else {
+            var error_msg = I18n.t('login_error');
+            if (nextProps.auth.statusText.indexOf("User") !== -1) {
+                error_msg = I18n.t('user_not_exist');
+            }
+            if (nextProps.auth.statusText.indexOf("Password") !== -1) {
+                error_msg = I18n.t('wrong_password');
+            }
             this.setState({
-                errorMessage: nextProps.auth.statusText
+                errorMessage: error_msg
             })
         }
     }
@@ -121,11 +131,11 @@ class Login extends Component {
                         <Text style={styles.whiteFont}>{this.state.errorMessage}</Text>
                     </View>
                     <View style={styles.inputContainer}>
-                        <Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
+                        <Icon style={styles.inputUsername} name="user" size={22} color="#fff"/>
                         <TextInput
                             ref="email"
                             style={[styles.input, styles.whiteFont]}
-                            placeholder="Email"
+                            placeholder={I18n.t('email')}
                             placeholderTextColor="#FFF"
                             value={this.state.email}
                             onChangeText={(text) => this.setState({email: text, errorMessage: ''})}
@@ -135,12 +145,12 @@ class Login extends Component {
                         />
                     </View>
                     <View style={styles.inputContainer}>
-                        <Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/>
+                        <Icon style={styles.inputPassword} name="lock" size={22} color="#fff"/>
                         <TextInput
                             ref="password"
                             password={true}
                             style={[styles.input, styles.whiteFont]}
-                            placeholder="Password"
+                            placeholder={I18n.t('password')}
                             placeholderTextColor="#FFF"
                             value={this.state.password}
                             onChangeText={(text) => this.setState({password: text, errorMessage: ''})}
@@ -150,13 +160,13 @@ class Login extends Component {
                 </View>
                 <TouchableOpacity onPress={this.onPress.bind(this)}>
                     <View style={styles.signin}>
-                        <Text style={styles.whiteFont}>Sign In</Text>
+                        <Text style={styles.whiteFont}>{I18n.t('login')}</Text>
                     </View>
                 </TouchableOpacity>
                 <View style={styles.signup}>
-                    <Text style={styles.greyFont}>Don't have an account? </Text>
+                    <Text style={styles.greyFont}>{I18n.t('need_account')}</Text>
                     <TouchableHighlight onPress={this.routeToSignup.bind(this)}>
-                        <Text style={styles.whiteFont}> Sign Up</Text>
+                        <Text style={styles.whiteFont}>{I18n.t('register')}</Text>
                     </TouchableHighlight>
                 </View>
             </View>
@@ -176,12 +186,12 @@ class Login extends Component {
         } else if (this.state.email) {
             this.refs.password.focus();
             this.setState({
-                errorMessage: 'Please add a Password'
+                errorMessage: I18n.t('no_password')
             })
         } else {
             this.refs.email.focus();
             this.setState({
-                errorMessage: 'Please add a E-Mail'
+                errorMessage: I18n.t('no_email')
             })
         }
     }
