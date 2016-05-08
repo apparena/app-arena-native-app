@@ -17,7 +17,13 @@ export function registerTranslation() {
             no_password: 'Please add a Password',
             user_not_exist: 'User does not exist',
             wrong_password: 'Password wrong',
-            app_id: 'App-ID:'
+            app_id: 'App-ID:',
+            loading: 'Loading...',
+            change_avatar: 'Change Avatar',
+            change_image: 'Change Image',
+            delete: 'Delete',
+            cancel: 'Cancel',
+            input_placeholder: 'Enter Content'
         },
         de: {
             login: 'Anmelden',
@@ -31,7 +37,13 @@ export function registerTranslation() {
             login_error: 'Ein Fehler beim Login ist aufgetreten',
             user_not_exist: 'Kein Nutzer mit dieser E-Mail Adresse registriert',
             wrong_password: 'Das eingegebene Passwort ist nicht korrekt',
-            app_id: 'App-ID:'
+            app_id: 'App-ID:',
+            loading: 'Laden...',
+            change_avatar: 'Profilbild ändern',
+            change_image: 'Bild ändern',
+            delete: 'Löschen',
+            cancel: 'Abbrechen',
+            input_placeholder: 'Inhalt hier einfügen'
         }
     }
 }

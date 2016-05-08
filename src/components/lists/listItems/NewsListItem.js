@@ -3,6 +3,7 @@
 import React from "react";
 import {StyleSheet, Text, ListView, View, TouchableHighlight, Image} from "react-native";
 import Component from "../../../framework/component";
+import {generalStyles} from "../../../framework/general";
 import _ from "lodash";
 
 export default class AppList extends Component {
@@ -33,6 +34,11 @@ export default class AppList extends Component {
                                 {date.toLocaleDateString()}
                             </Text>
                         </View>
+                        <View style={styles.rowTwo}>
+                            <Text style={styles.rowAuthor}>
+                                {this.props.rowData._embedded.author[0].name}
+                            </Text>
+                        </View>
                     </View>
                 </TouchableHighlight>
                 <View style={styles.separator}/>
@@ -41,21 +47,20 @@ export default class AppList extends Component {
     }
 }
 
-var styles = StyleSheet.create({
-    row: {
+const styles = Object.assign({}, generalStyles, StyleSheet.create({
+    rowTwo: {
         backgroundColor: 'white',
         paddingHorizontal: 15,
-        paddingVertical: 15,
+        paddingBottom: 15,
         flex: 1,
         flexDirection: 'row'
     },
     separator: {
-        height: 5,
-        backgroundColor: '#ccc'
+        height: 10,
+        backgroundColor: '#eee'
     },
     rowText: {
         fontSize: 12,
-        fontWeight: '500',
         textAlign: 'left',
         flex: 0.8
     },
@@ -65,14 +70,20 @@ var styles = StyleSheet.create({
         overflow: "hidden"
     },
     rowDate: {
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: '300',
         textAlign: 'right',
         flex: 0.2
+    },
+    rowAuthor: {
+        fontSize: 10,
+        fontWeight: '300',
+        textAlign: 'left',
+        flex: 1
     },
     rowTextDesc: {
         paddingTop: 2,
         fontSize: 12,
         fontWeight: 'normal'
     }
-});
+}));

@@ -3,6 +3,7 @@
 import React from 'react';
 import {StyleSheet, Text, ListView, View, TouchableHighlight} from "react-native";
 import Component from "../../../framework/component";
+import {generalStyles} from "../../../framework/general";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class AppList extends Component {
@@ -38,29 +39,14 @@ export default class AppList extends Component {
     }
 }
 
-var styles = StyleSheet.create({
-    row: {
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        paddingHorizontal: 15,
-        paddingVertical: 15,
-        flex: 1,
-        flexDirection: 'row'
-    },
+const styles = Object.assign({}, generalStyles, StyleSheet.create({
     first: {
         flex: .95
     },
     second: {
         flex: .05
     },
-    separator: {
-        height: StyleSheet.hairlineWidth,
-        backgroundColor: '#bbbbbb',
-        marginLeft: 15,
-    },
     rowText: {
-        fontSize: 17,
-        fontWeight: '500',
-        lineHeight: 25
+        fontSize: 15
     }
-});
+}));

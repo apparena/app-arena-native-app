@@ -75,7 +75,9 @@ export default class App {
                                 drawUnderNavBar: true,
                                 navBarTextColor: '#ffffff',
                                 navBarBackgroundColor: '#2D343D',
-                                statusBarTextColorScheme: 'light'
+                                statusBarTextColorScheme: 'light',
+                                navBarHideOnScroll: true,
+                                statusBarHideWithNavBar: true
                             }
                         },
                         {
@@ -111,10 +113,9 @@ export default class App {
                             selectedIcon: icons.person_selected,
                             title: 'Profile',
                             navigatorStyle: {
-                                drawUnderNavBar: true,
                                 navBarTextColor: '#ffffff',
                                 navBarBackgroundColor: '#2D343D',
-                                statusBarTextColorScheme: 'light'
+                                statusBarTextColorScheme: 'light',
                             }
                         }
                     ],

@@ -2,16 +2,19 @@
 /*eslint-disable prefer-const */
 import * as newsActions from "../../actions/news";
 import React from "react";
-import {StyleSheet, Text, ListView, View, WebView} from "react-native";
+import {StyleSheet, Text, ListView, View, WebView, RefreshControl} from "react-native";
 import Component from "../../framework/component";
+import {generalStyles} from "../../framework/general";
+import {renderPlaceholderView} from "../../framework/general";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import NewsListItem from "../../components/lists/listItems/NewsListItem"
+import NewsListItem from "../../components/lists/listItems/NewsListItem";
 
 class AppList extends Component {
     getInitState() {
         return ({
             loading: true,
+            refreshing: false,
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2
             })
@@ -36,9 +39,15 @@ class AppList extends Component {
         if (nextProps.news) {
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(nextProps.news),
-                loading: false
+                loading: false,
+                refreshing: false
             })
         }
+    }
+
+    _onRefresh() {
+        this.setState({refreshing: true});
+        this.props.getNews();
     }
 
     renderRow(rowData) {
@@ -49,11 +58,17 @@ class AppList extends Component {
 
     render() {
         if (this.state.loading) {
-            return this._renderPlaceholderView()
+            return renderPlaceholderView()
         } else {
             return (
                 <View style={styles.page}>
                     <ListView
+                        refreshControl={
+                          <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh.bind(this)}
+                          />
+                        }
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
                     />
@@ -61,30 +76,11 @@ class AppList extends Component {
             );
         }
     }
-
-    _renderPlaceholderView() {
-        return (
-            <View style={styles.container}>
-                <Text>
-                    Loading News...
-                </Text>
-            </View>
-        );
-    }
 }
 
-var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF'
-    },
-    page: {
-        flex: 1
-    }
-});
+const styles = Object.assign({}, generalStyles, StyleSheet.create({
+
+}));
 
 export default connect(
     (state) => ({

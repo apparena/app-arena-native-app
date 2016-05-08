@@ -16,7 +16,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         flex: .5,

@@ -8,7 +8,7 @@ import StepsList from "../containers/lists/Steps";
 import StepList from "../containers/lists/Step";
 import ConfigElement from "../containers/elements/ConfigElement";
 import SupportScreen from "../containers/elements/Support";
-import WebView from "../containers/elements/WebView";
+import WebView from "../components/elements/WebView";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {

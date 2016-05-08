@@ -14,7 +14,7 @@ class ConfigElement extends Component {
             <View style={styles.page}>
                 <WebView
                     style={{height: 500}}
-                    source={require('./support.html')}
+                    source={require('../../components/elements/support.html')}
                     scalesPageToFit={false}
                 />
             </View>

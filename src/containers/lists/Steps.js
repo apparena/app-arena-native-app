@@ -11,6 +11,8 @@ import {
     InteractionManager
 } from "react-native";
 import Component from "../../framework/component";
+import {renderPlaceholderView} from "../../framework/general";
+import {generalStyles} from "../../framework/general";
 import I18n from 'react-native-i18n';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
@@ -62,7 +64,7 @@ class Wizard extends Component {
 
     render() {
         if (this.state.renderPlaceholderOnly) {
-            return this._renderPlaceholderView();
+            return renderPlaceholderView();
         }
 
         return (
@@ -74,28 +76,11 @@ class Wizard extends Component {
             </View>
         );
     }
-
-    _renderPlaceholderView() {
-        return (
-            <View>
-                <Text>Loading...</Text>
-            </View>
-        );
-    }
 }
 
-var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF'
-    },
-    page: {
-        flex: 1
-    }
-});
+const styles = Object.assign({}, generalStyles, StyleSheet.create({
+
+}));
 
 export default connect(
     (state) => ({

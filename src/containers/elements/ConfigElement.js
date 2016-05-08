@@ -1,11 +1,14 @@
-import * as authActions from "../../actions/auth";
-import * as userActions from "../../actions/user";
-import React from 'react';
+import * as configActions from "../../actions/config";
+import React from "react";
 import {Text, Image, View, ScrollView, TouchableOpacity, StyleSheet, Alert} from "react-native";
 import Component from "../../framework/component";
-import I18n from 'react-native-i18n';
+import {generalStyles} from "../../framework/general";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+
+//Import ConfigElements Screens
+import TextScreen from "../../components/data-types/Text";
+import ImageScreen from "../../components/data-types/Image";
 
 // this is a traditional React component connected to the redux store
 class ConfigElement extends Component {
@@ -40,18 +43,50 @@ class ConfigElement extends Component {
     }
 
     render() {
+        var config = this.props.data;
         return (
             <View style={styles.page}>
+                <Text style={styles.name}>
+                    {this.props.data.name.toUpperCase()}
+                </Text>
+                {(() => {
+                    switch (config.type) {
+                        case "color":
+                            return <ColorScreen {...this.props}/>;
+                        case "input":
+                            return <TextScreen {...this.props}/>;
+                        case "html":
+                            return <HtmlScreen {...this.props}/>;
+                        case "css":
+                            return <CssScreen {...this.props}/>;
+                        case "image":
+                            return <ImageScreen {...this.props}/>;
+                        case "checkbox":
+                            return <CheckboxScreen {...this.props}/>;
+                        case "select":
+                            return <SelectScreen {...this.props}/>;
+                        case "multiselect":
+                            return (
+                                <MultiselectScreen {...this.props}/>
+                            );
+                        case "date":
+                            return <Date {...this.props}/>;
+                        case undefined:
+                            break;
+                        default:
+                            console.warn("Cannot render unknown type '" + config.type + "' of configElement", config);
+                    }
+                })()}
                 {this._renderDescription()}
             </View>
-        );
+        )
     }
 
 
     _renderDescription() {
         if (this.props.data.description) {
             return (
-                <Text style={styles.rowTextDesc}>
+                <Text style={styles.description}>
                     {this.props.data.description}
                 </Text>
             )
@@ -59,7 +94,18 @@ class ConfigElement extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = Object.assign({}, generalStyles, StyleSheet.create({
+    description: {
+        margin: 15,
+        fontSize: 12,
+        color: '#858585'
+    },
+    name: {
+        margin: 15,
+        marginBottom: 5,
+        fontSize: 12,
+        color: '#858585'
+    },
     text: {
         textAlign: 'center',
         fontSize: 18,
@@ -73,16 +119,15 @@ const styles = StyleSheet.create({
         marginTop: 10,
         color: 'blue'
     }
-});
+}));
 
 
 export default connect(
     (state) => ({
         auth: state.auth,
-        user: state.user
+        config: state.config
     }),
     (dispatch) => ({
-        ...bindActionCreators(authActions, dispatch),
-        ...bindActionCreators(userActions, dispatch)
+        ...bindActionCreators(configActions, dispatch)
     })
 )(ConfigElement);

@@ -1,9 +1,10 @@
 /* @flow */
 /*eslint-disable prefer-const */
-import React from 'react';
+import React from "react";
 import {StyleSheet, Text, ListView, View, TouchableHighlight, Image} from "react-native";
 import Component from "../../../framework/component";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {generalStyles} from "../../../framework/general";
+import Icon from "react-native-vector-icons/FontAwesome";
 import I18n from "react-native-i18n";
 
 export default class AppList extends Component {
@@ -29,7 +30,7 @@ export default class AppList extends Component {
                             </Text>
                         </View>
                         <View style={styles.second}>
-                            <Icon name="angle-right" size={35} color="#ccc" />
+                            <Icon name="angle-right" size={35} color="#ccc"/>
                         </View>
                     </View>
                 </TouchableHighlight>
@@ -39,33 +40,16 @@ export default class AppList extends Component {
     }
 }
 
-var styles = StyleSheet.create({
-    row: {
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        paddingHorizontal: 15,
-        paddingVertical: 15,
-        flex:1,
-        flexDirection:'row'
-    },
+const styles = Object.assign({}, generalStyles, StyleSheet.create({
     first: {
         flex: .95
     },
     second: {
         flex: .05
     },
-    separator: {
-        height: StyleSheet.hairlineWidth,
-        backgroundColor: '#bbbbbb',
-        marginLeft: 15,
-    },
-    rowText: {
-        fontSize: 17,
-        fontWeight: '500',
-    },
     rowTextDesc: {
         paddingTop: 2,
         fontSize: 12,
         fontWeight: 'normal'
     },
-});
+}));

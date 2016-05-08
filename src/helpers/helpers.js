@@ -36,7 +36,7 @@ export function getCurrentUserAction(companyId, userId) {
 }
 
 export function getNewsAction() {
-    return axios.get(`https://blog.app-arena.com/wp-json/wp/v2/posts?categories=545&_embed`,
+    return axios.get(`https://blog.app-arena.com/wp-json/wp/v2/posts?categories=544&_embed&ordered=date`,
         {headers: config.api.headers}).then((dataObj) => {
         return dataObj;
     });
