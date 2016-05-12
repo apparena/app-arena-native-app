@@ -10,9 +10,8 @@ import moment from "moment";
 export default class AppList extends Component {
     _route() {
         this.props.navigator.push({
-            title: "News",
-            screen: "elements.WebView",
-            passProps: {uri: this.props.rowData.link}
+            screen: "elements.HtmlView",
+            passProps: {rowData: this.props.rowData},
         });
     }
 
