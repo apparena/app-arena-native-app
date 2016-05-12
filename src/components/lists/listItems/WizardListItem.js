@@ -1,10 +1,10 @@
 /* @flow */
 /*eslint-disable prefer-const */
-import React from 'react';
+import React from "react";
 import {StyleSheet, Text, ListView, View, TouchableHighlight} from "react-native";
 import Component from "../../../framework/component";
 import {generalStyles} from "../../../framework/general";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class AppList extends Component {
     _route() {
@@ -39,14 +39,4 @@ export default class AppList extends Component {
     }
 }
 
-const styles = Object.assign({}, generalStyles, StyleSheet.create({
-    first: {
-        flex: .95
-    },
-    second: {
-        flex: .05
-    },
-    rowText: {
-        fontSize: 15
-    }
-}));
+const styles = Object.assign({}, generalStyles, StyleSheet.create({}));

@@ -1,10 +1,8 @@
 import * as configActions from "../../actions/config";
-import React from 'react';
+import React from "react";
 import {ListView, Text, View, StyleSheet, Touch, InteractionManager} from "react-native";
 import Component from "../../framework/component";
-import {generalStyles} from "../../framework/general";
-import {renderPlaceholderView} from "../../framework/general";
-import I18n from 'react-native-i18n';
+import {generalStyles, renderPlaceholderView} from "../../framework/general";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import StepListItem from "../../components/lists/listItems/StepListItem";
@@ -34,10 +32,20 @@ class Wizard extends Component {
         }
     }
 
+    updateCheckbox(configId, value) {
+        this.props.updateConfigValue(this.props.appId, configId, value)
+            .then(() => {
+
+            })
+            .catch(() => {
+
+            });
+    }
+
     renderRow(rowData) {
         if (rowData.type === "configElement" && this.props.config[rowData.identifier]) {
             return (
-                <StepListItem {...this.props} rowData={rowData}/>
+                <StepListItem {...this.props} rowData={rowData} updateCheckbox={this.updateCheckbox.bind(this)} />
             );
         } else {
             return (
@@ -62,9 +70,7 @@ class Wizard extends Component {
     }
 }
 
-const styles = Object.assign({}, generalStyles, StyleSheet.create({
-
-}));
+const styles = Object.assign({}, generalStyles, StyleSheet.create({}));
 
 export default connect(
     (state) => ({

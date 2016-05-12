@@ -5,6 +5,7 @@ import {StyleSheet, Text, ListView, View, TouchableHighlight, Image} from "react
 import Component from "../../../framework/component";
 import {generalStyles} from "../../../framework/general";
 import _ from "lodash";
+import moment from "moment";
 
 export default class AppList extends Component {
     _route() {
@@ -16,22 +17,18 @@ export default class AppList extends Component {
     }
 
     render() {
-        var date = new Date(this.props.rowData.date);
+        var uri = (this.props.rowData._embedded['https://api.w.org/featuredmedia']) && this.props.rowData._embedded['https://api.w.org/featuredmedia'][0].source_url;
         return (
             <View>
                 <TouchableHighlight onPress={this._route.bind(this)}>
                     <View>
-                        <Image
-                            resizeMode="cover"
-                            style={styles.rowImage}
-                            source={{uri: this.props.rowData._embedded['https://api.w.org/featuredmedia'][0].source_url}}
-                        />
+                        {this._renderNewsImage(uri)}
                         <View style={styles.row}>
                             <Text style={styles.rowText}>
                                 {_.unescape(this.props.rowData.title.rendered.replace("&#8211;", '-'))}
                             </Text>
                             <Text style={styles.rowDate}>
-                                {date.toLocaleDateString()}
+                                {moment(this.props.rowData.date).format("DD.MM.YYYY")}
                             </Text>
                         </View>
                         <View style={styles.rowTwo}>
@@ -44,6 +41,18 @@ export default class AppList extends Component {
                 <View style={styles.separator}/>
             </View>
         );
+    }
+
+    _renderNewsImage(uri) {
+        if (uri) {
+            return (
+                <Image
+                    resizeMode="cover"
+                    style={styles.rowImage}
+                    source={{uri}}
+                />
+            )
+        }
     }
 }
 

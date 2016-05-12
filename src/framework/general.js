@@ -15,6 +15,23 @@ export var generalStyles = StyleSheet.create({
     rowText: {
         fontSize: 15,
     },
+    first: {
+        flex: .95
+    },
+    firstCheckbox: {
+        flex: .85
+    },
+    second: {
+        flex: .05
+    },
+    secondCheckbox: {
+        flex: .15
+    },
+    rowTextDesc: {
+        paddingTop: 2,
+        fontSize: 12,
+        fontWeight: 'normal'
+    },
     separator: {
         height: StyleSheet.hairlineWidth,
         backgroundColor: '#eee',

@@ -1,7 +1,7 @@
 import React, {PropTypes} from "react";
 import Component from "../../framework/component";
-import {View, TextInput} from "react-native";
-import I18n from "react-native-i18n";
+import {View, DatePickerIOS} from "react-native";
+import moment from "moment";
 
 export default class TextElementComponent extends Component {
     static propTypes = {
@@ -17,24 +17,19 @@ export default class TextElementComponent extends Component {
     }
 
     onChange(value) {
+        value = moment(value).format('YYYY-MM-DD hh:mm:ss');
         this.props.setValue(value)
     }
 
     render() {
+        var date = new Date(this.props.value);
         return (
             <View style={{backgroundColor: '#fff'}}>
                 <View style={{margin: 15}}>
-                    <TextInput
-                        style={{height: 40}}
-                        onChangeText={this.onChange.bind(this)}
-                        value={this.props.value}
-                        autoCorrect={true}
-                        autoFocus={true}
-                        multiline={this.state.multiline}
-                        keyboardType={'default'}
-                        placeholderTextColor={I18n.t('input_placeholder')}
-                        clearButtonMode={"while-editing"}
-                        returnKeyType={'done'}
+                    <DatePickerIOS
+                        date={date}
+                        mode="datetime"
+                        onDateChange={this.onChange.bind(this)}
                     />
                 </View>
             </View>

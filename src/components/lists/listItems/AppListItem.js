@@ -40,16 +40,4 @@ export default class AppList extends Component {
     }
 }
 
-const styles = Object.assign({}, generalStyles, StyleSheet.create({
-    first: {
-        flex: .95
-    },
-    second: {
-        flex: .05
-    },
-    rowTextDesc: {
-        paddingTop: 2,
-        fontSize: 12,
-        fontWeight: 'normal'
-    },
-}));
+const styles = Object.assign({}, generalStyles, StyleSheet.create({}));

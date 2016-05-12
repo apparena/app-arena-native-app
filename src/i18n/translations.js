@@ -21,9 +21,13 @@ export function registerTranslation() {
             loading: 'Loading...',
             change_avatar: 'Change Avatar',
             change_image: 'Change Image',
+            take_image: 'Take Photo...',
+            image_picker: 'Photo Picker',
+            choose_image: 'Choose from Library...',
             delete: 'Delete',
             cancel: 'Cancel',
-            input_placeholder: 'Enter Content'
+            input_placeholder: 'Enter Content',
+            save: 'Save'
         },
         de: {
             login: 'Anmelden',
@@ -41,9 +45,13 @@ export function registerTranslation() {
             loading: 'Laden...',
             change_avatar: 'Profilbild ändern',
             change_image: 'Bild ändern',
+            take_image: 'Photo aufnehmen...',
+            image_picker: 'Photo ändern',
+            choose_image: 'Photo auswählen...',
             delete: 'Löschen',
             cancel: 'Abbrechen',
-            input_placeholder: 'Inhalt hier einfügen'
+            input_placeholder: 'Inhalt hier einfügen',
+            save: 'Speichern'
         }
     }
 }

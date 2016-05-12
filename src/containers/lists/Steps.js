@@ -1,19 +1,9 @@
 import * as wizardActions from "../../actions/wizard";
-import React from 'react';
-import {
-    ListView,
-    Text,
-    View,
-    StyleSheet,
-    TabBarIOS,
-    Touch,
-    TouchableHighlight,
-    InteractionManager
-} from "react-native";
+import * as appIdActions from "../../actions/appId";
+import React from "react";
+import {ListView, Text, View, StyleSheet, TabBarIOS, Touch, TouchableHighlight, InteractionManager} from "react-native";
 import Component from "../../framework/component";
-import {renderPlaceholderView} from "../../framework/general";
-import {generalStyles} from "../../framework/general";
-import I18n from 'react-native-i18n';
+import {renderPlaceholderView, generalStyles} from "../../framework/general";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import WizardListItem from "../../components/lists/listItems/WizardListItem";
@@ -37,6 +27,7 @@ class Wizard extends Component {
         } else if (this.props.auth.isAuthenticated) {
             this.props.initAppArenaWizard(this.props.appId, this.props.auth.token);
         }
+        this.props.initAppId(this.props.appId);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -48,7 +39,7 @@ class Wizard extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.wizard) {
+        if (nextProps.wizard.wizardData) {
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(nextProps.wizard.wizardData.steps),
                 renderPlaceholderOnly: false
@@ -57,9 +48,15 @@ class Wizard extends Component {
     }
 
     renderRow(rowData) {
-        return (
-            <WizardListItem {...this.props} appId={this.props.appId} rowData={rowData}/>
-        );
+        if (rowData.type === "step") {
+            return (
+                <WizardListItem {...this.props} appId={this.props.appId} rowData={rowData}/>
+            );
+        } else {
+            return (
+                <View />
+            )
+        }
     }
 
     render() {
@@ -78,16 +75,16 @@ class Wizard extends Component {
     }
 }
 
-const styles = Object.assign({}, generalStyles, StyleSheet.create({
-
-}));
+const styles = Object.assign({}, generalStyles, StyleSheet.create({}));
 
 export default connect(
     (state) => ({
         auth: state.auth,
-        wizard: state.wizard
+        wizard: state.wizard,
+        app_id: state.appId
     }),
     (dispatch) => ({
-        ...bindActionCreators(wizardActions, dispatch)
+        ...bindActionCreators(wizardActions, dispatch),
+        ...bindActionCreators(appIdActions, dispatch)
     })
 )(Wizard);
