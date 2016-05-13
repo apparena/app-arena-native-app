@@ -5,6 +5,8 @@ export default {
     addIcon: 'ADD_ICON',
     //Auth
     loginUser: 'LOGIN_USER',
+    registerUser: 'REGISTER_USER',
+    registerCompany: 'REGISTER_COMPANY',
     logoutUser: 'LOGOUT_USER',
     checkAuthentication: 'CHECK_AUTHENTICATION',
     authenticate: 'AUTHENTICATE',

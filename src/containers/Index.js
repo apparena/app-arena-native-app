@@ -9,6 +9,7 @@ import StepList from "../containers/lists/Step";
 import ConfigElement from "../containers/elements/ConfigElement";
 import SupportScreen from "../containers/elements/Support";
 import WebView from "../components/elements/WebView";
+import HtmlView from "../components/elements/HtmlView";
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -25,4 +26,5 @@ export function registerScreens(store, Provider) {
     Navigation.registerComponent('elements.ConfigElement', () => ConfigElement, store, Provider);
     Navigation.registerComponent('elements.SupportScreen', () => SupportScreen, store, Provider);
     Navigation.registerComponent('elements.WebView', () => WebView, store, Provider);
+    Navigation.registerComponent('elements.HtmlView', () => HtmlView, store, Provider);
 }

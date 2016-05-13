@@ -41,7 +41,7 @@ export default class ImageScreen extends Component {
                 } else {
                     uri = response.uri.replace('file://', '')
                 }
-                this.props.uploadCompanyMedia(2, {
+                this.props.uploadCompanyMedia(this.props.auth.companyId, {
                     filename: 'file', // this is what your server is looking for
                     filepath: uri, // uri from response (local path of image on device)
                     filetype: 'image/jpeg'

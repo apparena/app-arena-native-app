@@ -31,6 +31,13 @@ export default class AppList extends Component {
     }
 
     _renderElement() {
+        if (this.props.config[this.props.rowData.identifier].type == "html" || this.props.config[this.props.rowData.identifier].type == "css") {
+            return (
+                <View>
+                </View>
+            );
+        }
+
         if (this.props.config[this.props.rowData.identifier].type == "checkbox") {
             return (
                 <View>
@@ -72,6 +79,4 @@ export default class AppList extends Component {
     }
 }
 
-const styles = Object.assign({}, generalStyles, StyleSheet.create({
-   
-}));
+const styles = Object.assign({}, generalStyles, StyleSheet.create({}));

@@ -7,5 +7,16 @@
 </head>
 <body>
 </body>
-<script type="text/javascript">var $zoho= $zoho || {salesiq:{values:{},ready:function(){}}};var d=document;s=d.createElement("script");s.type="text/javascript";s.defer=true;s.src="https://salesiq.zoho.com/apparenacom/chat.ls?embedname=iphoneapp";t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);document.write("<div id='zldchtframe'></div>")</script>
+<script type="text/javascript">
+    var $zoho= $zoho || {salesiq:{values:{},ready:function(){}}};var d=document;s=d.createElement("script");
+    s.type="text/javascript";s.defer=true;s.src="https://salesiq.zoho.com/apparenacom/float.ls?embedname=iphoneapp";
+    t=d.getElementsByTagName("script")[0];t.parentNode.insertBefore(s,t);
+</script>
+<script>
+    $zoho.salesiq.ready=function(embedinfo)
+    {
+        $zoho.salesiq.visitor.name("John Smith");
+        $zoho.salesiq.chat.mode("click");
+    }
+</script>
 </html>

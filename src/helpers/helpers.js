@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {AsyncStorage, PickerIOS, Text, View} from "react-native";
 import axios from "axios";
 import config from "../config/global";
@@ -42,7 +42,30 @@ export function getNewsAction() {
     });
 }
 
+export function createCompanyAction(name) {
+    return axios.post(`${config.api_company_route}`,
+        {
+            name,
+            subdomain: name
+        },
+        {headers: Object.assign({}, config.api.headers, {Authorization: config.auth_token})}).then((dataObj) => {
+        return dataObj;
+    });
+}
 
+export function registerUser(username, email, password, companyId) {
+    return axios.post(`${config.api_company_route}/${companyId}/users`,
+        {
+            username,
+            firstname: "blub",
+            lastname: "blub",
+            email,
+            password
+        },
+        {headers: Object.assign({}, config.api.headers, {Authorization: config.auth_token})}).then((dataObj) => {
+        return dataObj;
+    });
+}
 
 export function updateTranslationStringAction(appId, identifier, translation) {
     return axios.put(`${config.api_app_route}/${appId}/translations/${identifier}`,

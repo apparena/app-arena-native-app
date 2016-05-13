@@ -6,7 +6,8 @@ const initialState = {
     token: null,
     isAuthenticated: false,
     isAuthenticating: false,
-    statusText: null
+    statusText: null,
+    authType: "user"
 };
 
 export default function authReducer(state = initialState, action = {}) {
@@ -54,6 +55,32 @@ export default function authReducer(state = initialState, action = {}) {
             return Object.assign({}, initialState, {
                 'statusText': 'You have been successfully logged out.'
             });
+        case actionTypes.registerCompany:
+            if (action.payload.status === 201) {
+                return Object.assign({}, state, {
+                    'status': action.payload.status,
+                    'authType': "company"
+                }, action.payload.data.data)
+            } else {
+                return Object.assign({}, state, {
+                    'status': action.payload.data.status,
+                    'statusText': action.payload.data.message,
+                    'authType': "company"
+                })
+            }
+        case actionTypes.registerUser:
+            if (action.payload.status === 201) {
+                return Object.assign({}, state, {
+                    'status': action.payload.status,
+                    'authType': "user"
+                }, action.payload.data.data)
+            } else {
+                return Object.assign({}, state, {
+                    'status': action.payload.data.status,
+                    'statusText': action.payload.data.message,
+                    'authType': "user"
+                })
+            }
         default:
             return state;
     }

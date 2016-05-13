@@ -1,20 +1,171 @@
 import * as authActions from "../../actions/auth";
-import React from 'react';
-import {
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-    WebView,
-    Image,
-    TouchableOpacity,
-    TouchableHighlight
-} from "react-native";
+import * as appActions from "../../actions/app";
+import React from "react";
+import {StyleSheet, Text, TextInput, View, WebView, Image, TouchableOpacity, TouchableHighlight} from "react-native";
 import Component from "../../framework/component";
 import I18n from "react-native-i18n";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
+
+
+class Register extends Component {
+    getInitState() {
+        return ({
+            username: '',
+            email: '',
+            companyName: '',
+            password: '',
+            passwordConfirm: '',
+            errorMessage: ''
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.auth.isAuthenticated) {
+            AsyncStorage.setItem('token', nextProps.auth.token);
+            this.props.changeAppRoot('after-login');
+            return;
+        }
+        if (nextProps.auth.status === 201) {
+            if (nextProps.auth.authType == "company") {
+                this.props.register(this.state.username, this.state.email, this.state.password, nextProps.auth.companyId)
+            }
+            if (nextProps.auth.authType == "user") {
+                this.props.login(this.state.email, this.state.password)
+            }
+        } else {
+            var error_msg = I18n.t('register_error');
+            if (nextProps.auth.statusText.indexOf("User") !== -1) {
+                error_msg = I18n.t('user_not_exist');
+            }
+            if (nextProps.auth.statusText.indexOf("Password") !== -1) {
+                error_msg = I18n.t('wrong_password');
+            }
+            this.setState({
+                errorMessage: error_msg
+            })
+        }
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Image style={styles.mark} source={require('../../../assets/img/apparena.png')}/>
+                </View>
+                <View style={styles.inputs}>
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.whiteFont}>{this.state.errorMessage}</Text>
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Icon style={styles.inputUsername} name="user" size={22} color="#fff"/>
+                        <TextInput
+                            ref="email"
+                            style={[styles.input, styles.whiteFont]}
+                            placeholder={I18n.t("username")}
+                            placeholderTextColor="#5F5F5F"
+                            value={this.state.username}
+                            onChangeText={(text) => this.setState({username: text})}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Icon style={styles.inputUsername} name="user" size={22} color="#fff"/>
+                        <TextInput
+                            ref="email"
+                            style={[styles.input, styles.whiteFont]}
+                            placeholder={I18n.t("email")}
+                            placeholderTextColor="#5F5F5F"
+                            value={this.state.email}
+                            onChangeText={(text) => this.setState({email: text})}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Icon style={styles.inputUsername} name="building" size={22} color="#fff"/>
+                        <TextInput
+                            ref="company"
+                            style={[styles.input, styles.whiteFont]}
+                            placeholder={I18n.t("company")}
+                            placeholderTextColor="#5F5F5F"
+                            value={this.state.companyName}
+                            onChangeText={(text) => this.setState({companyName: text})}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Icon style={styles.inputPassword} name="lock" size={22} color="#fff"/>
+                        <TextInput
+                            ref="password"
+                            password={true}
+                            style={[styles.input, styles.whiteFont]}
+                            placeholder={I18n.t("password")}
+                            placeholderTextColor="#5F5F5F"
+                            value={this.state.password}
+                            onChangeText={(text) => this.setState({password: text})}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Icon style={styles.inputPassword} name="lock" size={22} color="#fff"/>
+                        <TextInput
+                            ref="confirm_password"
+                            password={true}
+                            style={[styles.input, styles.whiteFont]}
+                            placeholder={I18n.t("confirm_password")}
+                            placeholderTextColor="#5F5F5F"
+                            value={this.state.passwordConfirm}
+                            onChangeText={(text) => this.setState({passwordConfirm: text})}
+                        />
+                    </View>
+                </View>
+                <TouchableOpacity onPress={this.onPress.bind(this)}>
+                    <View style={styles.signin}>
+                        <Text style={styles.whiteFont}>{I18n.t('register')}</Text>
+                    </View>
+                </TouchableOpacity>
+                <View style={styles.signup}>
+                    <Text style={styles.greyFont}>{I18n.t('already_account')}</Text>
+                    <TouchableHighlight onPress={this.routeToLogin.bind(this)}>
+                        <Text style={styles.whiteFont}>{I18n.t('login')}</Text>
+                    </TouchableHighlight>
+                </View>
+            </View>
+        );
+    }
+
+    routeToLogin() {
+        this.props.changeAppRoot('login');
+    }
+
+    onPress() {
+        if (this.state.email && this.state.companyName && this.state.password && this.state.passwordConfirm && this.state.password == this.state.passwordConfirm) {
+            this.props.createCompany(this.state.companyName);
+        } else if (!this.state.email) {
+            this.refs.email.focus();
+            this.setState({
+                errorMessage: I18n.t('no_email')
+            })
+        } else if (!this.state.companyName) {
+            this.refs.company.focus();
+            this.setState({
+                errorMessage: I18n.t('no_companyName')
+            })
+        } else if (!this.state.password) {
+            this.refs.password.focus();
+            this.setState({
+                errorMessage: I18n.t('no_password')
+            })
+        } else if (!this.state.passwordConfirm) {
+            this.refs.confirm_password.focus();
+            this.setState({
+                errorMessage: I18n.t('no_password')
+            })
+        } else if (this.state.password != this.state.passwordConfirm) {
+            this.refs.confirm_password.focus();
+            this.setState({
+                errorMessage: I18n.t('passwords_not_equal')
+            })
+        }
+    }
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -25,7 +176,7 @@ const styles = StyleSheet.create({
     header: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: .5,
+        flex: .3,
         backgroundColor: 'transparent'
     },
     mark: {
@@ -60,7 +211,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         padding: 10,
         borderWidth: 1,
-        borderBottomColor: '#CCC',
+        borderBottomColor: '#fff',
         borderColor: 'transparent'
     },
     input: {
@@ -70,6 +221,11 @@ const styles = StyleSheet.create({
         right: 0,
         height: 20,
         fontSize: 14
+    },
+    errorContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     forgotContainer: {
         alignItems: 'flex-end',
@@ -83,88 +239,12 @@ const styles = StyleSheet.create({
     }
 });
 
-class Register extends Component {
-    getInitState() {
-        return ({
-            email: 'v.klein@app-arena.com',
-            password: '1234',
-            errorMessage: ''
-        });
-    }
-
-    render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <Image style={styles.mark} source={require('../../../assets/img/apparena.png')}/>
-                </View>
-                <View style={styles.inputs}>
-                    <View style={styles.inputContainer}>
-                        <Icon style={styles.inputUsername} name="user" size={22} color="#fff"/>
-                        <TextInput
-                            style={[styles.input, styles.whiteFont]}
-                            placeholder={I18n.t("Username")}
-                            placeholderTextColor="#FFF"
-                            value={this.state.email}
-                            onChangeText={(text) => this.setState({email: text})}
-                        />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Icon style={styles.inputPassword} name="lock" size={22} color="#fff"/>
-                        <TextInput
-                            password={true}
-                            style={[styles.input, styles.whiteFont]}
-                            placeholder={I18n.t("Pasword")}
-                            placeholderTextColor="#FFF"
-                            value={this.state.password}
-                            onChangeText={(text) => this.setState({password: text})}
-                        />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Icon style={styles.inputPassword} name="lock" size={22} color="#fff"/>
-                        <TextInput
-                            password={true}
-                            style={[styles.input, styles.whiteFont]}
-                            placeholder={I18n.t("Pasword")}
-                            placeholderTextColor="#FFF"
-                            value={this.state.password}
-                            onChangeText={(text) => this.setState({password: text})}
-                        />
-                    </View>
-                </View>
-                <TouchableOpacity onPress={this.onPress.bind(this)}>
-                    <View style={styles.signin}>
-                        <Text style={styles.whiteFont}>{I18n.t('register')}</Text>
-                    </View>
-                </TouchableOpacity>
-                <View style={styles.signup}>
-                    <Text style={styles.greyFont}>{I18n.t('already_account')}</Text>
-                    <TouchableHighlight onPress={this.routeToLogin.bind(this)}>
-                        <Text style={styles.whiteFont}>{I18n.t('login')}</Text>
-                    </TouchableHighlight>
-                </View>
-            </View>
-        );
-    }
-
-    routeToLogin() {
-        this.props.navigator.resetTo({
-            title: "Login",
-            screen: 'auth.LoginScreen'
-        });
-    }
-
-    onPress() {
-        this.props.register(this.state.email, this.state.password);
-    }
-}
-
-
 export default connect(
     (state) => ({
         auth: state.auth
     }),
     (dispatch) => ({
+        ...bindActionCreators(appActions, dispatch),
         ...bindActionCreators(authActions, dispatch)
     })
 )(Register);

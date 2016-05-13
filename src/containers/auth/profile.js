@@ -1,47 +1,51 @@
 import * as authActions from "../../actions/auth";
 import * as userActions from "../../actions/user";
+import * as mediaActions from "../../actions/media";
 import React from "react";
-import {Text, Image, View, TouchableOpacity, StyleSheet, ActionSheetIOS} from "react-native";
+import ReactNative from "react-native";
 import Component from "../../framework/component";
+import {renderPlaceholderView, generalStyles} from "../../framework/general";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import I18n from "react-native-i18n";
-
+import Icon from "react-native-vector-icons/FontAwesome";
+const {Text, TextInput, Image, View, ScrollView, TouchableOpacity, StyleSheet, Platform, NativeModules: {ImagePickerManager}} = ReactNative;
 
 // this is a traditional React component connected to the redux store
 class Profile extends Component {
-    static navigatorButtons = {
-        rightButtons: [
-            {
-                title: 'Logout', // for a textual button, provide the button title (label)
-                id: 'logout', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-                disabled: false // optional, used to disable the button (appears faded and doesn't interact)
-            }
-        ]
-    };
-
     constructor(props, children) {
         super(props, children);
         this.state = this.getInitState ? this.getInitState() : {};
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        this.props.navigator.setButtons({
+            rightButtons: [
+                {
+                    title: I18n.t('logout'), // for a textual button, provide the button title (label)
+                    id: 'logout', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                    disabled: false // optional, used to disable the button (appears faded and doesn't interact)
+                }
+            ]// see "Adding buttons to the navigator" below for format (optional)
+        });
     }
 
     getInitState() {
         return ({
             renderPlaceholderOnly: true,
-            user: {}
+            user: {},
+            avatar: ''
         });
     }
 
     componentDidMount() {
         if (this.props.auth.isAuthenticated) {
-            this.props.getCurrentUser(2, this.props.auth.userId);
+            this.props.getCurrentUser(this.props.auth.companyId, this.props.auth.userId);
         }
     }
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps, nextState) {
         return (
-            this.props.user !== nextProps.user
+            this.props.user !== nextProps.user ||
+            this.state.user !== nextState.user
         )
     }
 
@@ -49,7 +53,7 @@ class Profile extends Component {
         if (nextProps.user) {
             this.setState({
                 renderPlaceholderOnly: false,
-                user: nextProps.user[2]
+                user: nextProps.user[this.props.auth.companyId]
             })
         }
     }
@@ -63,31 +67,64 @@ class Profile extends Component {
         }
     }
 
-    showActionSheet() {
-        ActionSheetIOS.showActionSheetWithOptions({
-                options: [
-                    I18n.t('change_avatar'),
-                    I18n.t('delete'),
-                    I18n.t('cancel')
-                ],
-                cancelButtonIndex: 2,
-                destructiveButtonIndex: 1
-            },
-            (buttonIndex) => {
-                this.setState({clicked: buttonIndex});
-            });
+    selectPhotoTapped() {
+        const self = this,
+            options = {
+                title: I18n.t('image_picker'),
+                takePhotoButtonTitle: I18n.t('take_image'),
+                chooseFromLibraryButtonTitle: I18n.t('choose_image'),
+                cancelButtonTitle: I18n.t('cancel'),
+                storageOptions: {
+                    skipBackup: true,
+                    path: 'App-Arena'
+                },
+                noData: true,
+                allowsEditing: true
+            };
+
+        ImagePickerManager.showImagePicker(options, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled photo picker');
+            }
+            else if (response.error) {
+                console.log('ImagePickerManager Error: ', response.error);
+            }
+            else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            }
+            else {
+                // You can display the image using either:
+                //const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+                var uri;
+                if (Platform.OS === 'android') {
+                    uri = response.uri
+                } else {
+                    uri = response.uri.replace('file://', '')
+                }
+                /*this.props.uploadCompanyMedia(this.props.auth.companyId, {
+                 filename: 'file', // this is what your server is looking for
+                 filepath: uri, // uri from response (local path of image on device)
+                 filetype: 'image/jpeg'
+                 });*/
+                self.setState({
+                    user: Object.assign({}, self.state.user, {avatar: uri})
+                })
+            }
+        });
     }
 
     render() {
         if (this.state.renderPlaceholderOnly) {
-            return this._renderPlaceholderView();
+            return renderPlaceholderView();
         }
 
         return (
-            <View style={styles.page}>
+            <ScrollView style={styles.page}>
                 <View style={styles.avatarBg}>
                     <View style={styles.avatar}>
-                        <TouchableOpacity onPress={this.showActionSheet.bind(this)}>
+                        <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
                             <Image
                                 resizeMode="cover"
                                 style={styles.avatarImg}
@@ -100,22 +137,42 @@ class Profile extends Component {
                     </Text>
                 </View>
                 <View style={styles.infoBg}>
-
+                    <View style={styles.inputView}>
+                        <Icon style={styles.icon} name="user" size={22} color="#2D343D"/>
+                        <TextInput
+                            style={styles.input}
+                            ref="email"
+                            placeholder={I18n.t("email")}
+                            placeholderTextColor="#5F5F5F"
+                            value={this.state.user.email}
+                            onChangeText={(text) => this.setState(Object.assign({}, self.state.user, {email: text}))}
+                            autoCorrect={true}
+                            keyboardType={'default'}
+                            returnKeyType={'done'}
+                        />
+                    </View>
+                    <View style={styles.separator}/>
+                    <View style={styles.inputView}>
+                        <Icon style={styles.icon} name="user" size={22} color="#2D343D"/>
+                        <TextInput
+                            style={styles.input}
+                            ref="email"
+                            placeholder={I18n.t("email")}
+                            placeholderTextColor="#5F5F5F"
+                            value={this.state.user.email}
+                            onChangeText={(text) => this.setState(Object.assign({}, self.state.user, {email: text}))}
+                            autoCorrect={true}
+                            keyboardType={'default'}
+                            returnKeyType={'done'}
+                        />
+                    </View>
                 </View>
-            </View>
-        );
-    }
-
-    _renderPlaceholderView() {
-        return (
-            <View>
-                <Text>Loading...</Text>
-            </View>
+            </ScrollView>
         );
     }
 }
 
-const styles = StyleSheet.create({
+const styles = Object.assign({}, generalStyles, StyleSheet.create({
     text: {
         textAlign: 'center',
         fontSize: 18,
@@ -129,6 +186,12 @@ const styles = StyleSheet.create({
         marginTop: 10,
         color: 'blue'
     },
+    icon: {
+        flex: 0.1,
+        marginLeft: 15,
+        width: 20,
+        height: 20
+    },
     avatarBg: {
         height: 150,
         backgroundColor: '#2D343D',
@@ -138,11 +201,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    infoBg: {
+    inputView: {
         flex: 1,
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        backgroundColor: '#fff',
+        height: 40,
+        padding: 10
+    },
+    infoBg: {
+        flex: 1
     },
     avatar: {
         flex: 0.7,
@@ -159,8 +228,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'right',
         color: '#fff'
+    },
+    input: {
+        flex: .9,
+        height: 20,
+        fontSize: 14
     }
-});
+}));
 
 
 export default connect(
@@ -170,6 +244,7 @@ export default connect(
     }),
     (dispatch) => ({
         ...bindActionCreators(authActions, dispatch),
-        ...bindActionCreators(userActions, dispatch)
+        ...bindActionCreators(userActions, dispatch),
+        ...bindActionCreators(mediaActions, dispatch)
     })
 )(Profile);

@@ -8,6 +8,7 @@ import auth from "./auth";
 import config from "./config";
 import counter from './counter';
 import display from "./display";
+import icons from "./icons";
 import locale from "./locale";
 import media from "./media";
 import news from "./news";
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
     config,
     counter,
     display,
+    icons,
     locale,
     media,
     news,

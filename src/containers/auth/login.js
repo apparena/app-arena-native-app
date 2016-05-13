@@ -1,6 +1,6 @@
 import * as appActions from "../../actions/app";
 import * as authActions from "../../actions/auth";
-import React from 'react';
+import React from "react";
 import {
     StyleSheet,
     Text,
@@ -16,82 +16,7 @@ import Component from "../../framework/component";
 import I18n from "react-native-i18n";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'column',
-        flex: .5,
-        backgroundColor: '#2D343D'
-    },
-    header: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: .5,
-        backgroundColor: 'transparent'
-    },
-    mark: {
-        width: 150,
-        height: 150
-    },
-    signin: {
-        backgroundColor: '#478AB8',
-        padding: 20,
-        alignItems: 'center'
-    },
-    signup: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: .15
-    },
-    inputs: {
-        marginTop: 10,
-        marginBottom: 10,
-        flex: .25
-    },
-    inputPassword: {
-        marginLeft: 15,
-        width: 20,
-        height: 21
-    },
-    inputUsername: {
-        marginLeft: 15,
-        width: 20,
-        height: 20
-    },
-    inputContainer: {
-        padding: 10,
-        borderWidth: 1,
-        borderBottomColor: '#CCC',
-        borderColor: 'transparent'
-    },
-    input: {
-        position: 'absolute',
-        left: 61,
-        top: 12,
-        right: 0,
-        height: 20,
-        fontSize: 14
-    },
-    forgotContainer: {
-        alignItems: 'flex-end',
-        padding: 15,
-    },
-    errorContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    redBackground: {
-        backgroundColor: 'red'
-    },
-    greyFont: {
-        color: '#D8D8D8'
-    },
-    whiteFont: {
-        color: '#FFF'
-    }
-});
+import Icon from "react-native-vector-icons/FontAwesome";
 
 class Login extends Component {
     getInitState() {
@@ -174,10 +99,7 @@ class Login extends Component {
     }
 
     routeToSignup() {
-        this.props.navigator.resetTo({
-            title: "Register",
-            screen: "auth.RegisterScreen"
-        });
+        this.props.changeAppRoot('register');
     }
 
     onPress() {
@@ -197,6 +119,81 @@ class Login extends Component {
     }
 }
 
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'column',
+        flex: .5,
+        backgroundColor: '#2D343D'
+    },
+    header: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: .3,
+        backgroundColor: 'transparent'
+    },
+    mark: {
+        width: 150,
+        height: 150
+    },
+    signin: {
+        backgroundColor: '#478AB8',
+        padding: 20,
+        alignItems: 'center'
+    },
+    signup: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: .15
+    },
+    inputs: {
+        marginTop: 10,
+        marginBottom: 10,
+        flex: .25
+    },
+    inputPassword: {
+        marginLeft: 15,
+        width: 20,
+        height: 21
+    },
+    inputUsername: {
+        marginLeft: 15,
+        width: 20,
+        height: 20
+    },
+    inputContainer: {
+        padding: 10,
+        borderWidth: 1,
+        borderBottomColor: '#CCC',
+        borderColor: 'transparent'
+    },
+    input: {
+        position: 'absolute',
+        left: 61,
+        top: 12,
+        right: 0,
+        height: 20,
+        fontSize: 14
+    },
+    forgotContainer: {
+        alignItems: 'flex-end',
+        padding: 15,
+    },
+    errorContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    redBackground: {
+        backgroundColor: 'red'
+    },
+    greyFont: {
+        color: '#D8D8D8'
+    },
+    whiteFont: {
+        color: '#FFF'
+    }
+});
 
 export default connect(
     (state) => ({

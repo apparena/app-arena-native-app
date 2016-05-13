@@ -23,9 +23,10 @@ export default class App {
     }
 
     onStoreUpdate() {
-        let {root, icons} = store.getState().app;
+        let {root} = store.getState().app;
+        const {icons} = store.getState().icons;
         const {isAuthenticated} = store.getState().auth;
-        if (!isAuthenticated) {
+        if (!isAuthenticated && root != "register") {
             root = "login";
         }
         // handle a root change
@@ -53,7 +54,7 @@ export default class App {
             case 'register':
                 Navigation.startSingleScreenApp({
                     screen: {
-                        screen: 'example.LoginScreen',
+                        screen: 'auth.RegisterScreen',
                         title: 'Anmelden',
                         navigatorStyle: {
                             navBarHidden: true,

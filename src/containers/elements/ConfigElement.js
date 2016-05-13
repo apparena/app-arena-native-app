@@ -21,6 +21,15 @@ class ConfigElement extends Component {
         super(props, children);
         this.state = this.getInitState ? this.getInitState() : {};
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        this.props.navigator.setButtons({
+            rightButtons: [
+                {
+                    title: I18n.t('save'), // for a textual button, provide the button title (label)
+                    id: 'save', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                    disabled: true // optional, used to disable the button (appears faded and doesn't interact)
+                }
+            ] // see "Adding buttons to the navigator" below for format (optional)
+        });
     }
 
     getInitState() {
@@ -42,7 +51,13 @@ class ConfigElement extends Component {
             });
         } else {
             this.props.navigator.setButtons({
-                rightButtons: [] // see "Adding buttons to the navigator" below for format (optional)
+                rightButtons: [
+                    {
+                        title: I18n.t('save'), // for a textual button, provide the button title (label)
+                        id: 'save', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                        disabled: true // optional, used to disable the button (appears faded and doesn't interact)
+                    }
+                ] // see "Adding buttons to the navigator" below for format (optional)
             });
         }
         this.setState({
