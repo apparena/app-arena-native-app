@@ -1,14 +1,31 @@
 /* @flow */
 /*eslint-disable prefer-const */
 import React from "react";
-import {StyleSheet, Text, ScrollView, View, WebView, Image} from "react-native";
+import {StyleSheet, Text, ScrollView, View, WebView, Image, ActionSheetIOS} from "react-native";
 import Component from "../../framework/component";
 import {generalStyles} from "../../framework/general";
 import HtmlView from "react-native-htmlview";
+import moment from "moment";
+import I18n from "react-native-i18n";
 
 export default class WebViewComponent extends Component {
+    constructor(props, children) {
+        super(props, children);
+        this.state = this.getInitState ? this.getInitState() : {};
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+        this.props.navigator.setButtons({
+            rightButtons: [
+                {
+                    title: I18n.t('share'), // for a textual button, provide the button title (label)
+                    id: 'share', // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
+                    disabled: false // optional, used to disable the button (appears faded and doesn't interact)
+                }
+            ]// see "Adding buttons to the navigator" below for format (optional)
+        });
+    }
+
+
     _route(uri) {
-        console.log(uri);
         this.props.navigator.push({
             title: "News",
             screen: "elements.WebView",
@@ -16,11 +33,22 @@ export default class WebViewComponent extends Component {
         });
     }
 
+    onNavigatorEvent(event) {
+        if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+            if (event.id == 'share') { // this is the same id field from the static navigatorButtons definition
+                this.showShareActionSheet();
+            }
+        }
+    }
+
     render() {
         return (
             <ScrollView>
                 {this._renderNewsImage()}
                 <View style={{padding:15}}>
+                    <Text style={styles.date}>{moment(this.props.rowData.date).format("DD.MM.YYYY")}</Text>
+                    <Text style={styles.headline}>{this.props.rowData.title.rendered}</Text>
+
                     <HtmlView
                         stylesheet={styles}
                         value={this.props.rowData.content.rendered}
@@ -43,6 +71,25 @@ export default class WebViewComponent extends Component {
             )
         }
     }
+
+    showShareActionSheet() {
+        ActionSheetIOS.showShareActionSheetWithOptions({
+                url: this.props.rowData.link,
+                excludedActivityTypes: [
+                    'com.apple.UIKit.activity.PostToTwitter'
+                ]
+            },
+            (error) => alert(error),
+            (success, method) => {
+                var text;
+                if (success) {
+                    text = `Shared via ${method}`;
+                } else {
+                    text = 'You didn\'t share';
+                }
+                this.setState({text});
+            });
+    }
 }
 
 const styles = Object.assign({}, generalStyles, StyleSheet.create({
@@ -50,6 +97,15 @@ const styles = Object.assign({}, generalStyles, StyleSheet.create({
         flex: 1,
         height: 200,
         overflow: "hidden"
+    },
+    headline: {
+        fontWeight: "500",
+        fontSize: 18
+    },
+    date: {
+        fontWeight: "normal",
+        fontSize: 14,
+        paddingBottom: 10
     },
     img: {
         height: 0

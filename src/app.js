@@ -102,7 +102,8 @@ export default class App {
                                 drawUnderNavBar: true,
                                 navBarTextColor: '#ffffff',
                                 navBarBackgroundColor: '#2D343D',
-                                statusBarTextColorScheme: 'light'
+                                statusBarTextColorScheme: 'light',
+                                navBarNoBorder: true
                             }
                         },
                         {

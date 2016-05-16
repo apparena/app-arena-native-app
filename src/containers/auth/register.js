@@ -13,11 +13,14 @@ class Register extends Component {
     getInitState() {
         return ({
             username: '',
+            firstname: '',
+            lastname: '',
             email: '',
             companyName: '',
             password: '',
             passwordConfirm: '',
-            errorMessage: ''
+            errorMessage: '',
+            btn_loading: false
         });
     }
 
@@ -43,7 +46,8 @@ class Register extends Component {
                 error_msg = I18n.t('wrong_password');
             }
             this.setState({
-                errorMessage: error_msg
+                errorMessage: error_msg,
+                btn_loading: false
             })
         }
     }
@@ -71,6 +75,28 @@ class Register extends Component {
                     </View>
                     <View style={styles.inputContainer}>
                         <Icon style={styles.inputUsername} name="user" size={22} color="#fff"/>
+                        <TextInput
+                            ref="email"
+                            style={[styles.input, styles.whiteFont]}
+                            placeholder={I18n.t("firstname")}
+                            placeholderTextColor="#5F5F5F"
+                            value={this.state.firstname}
+                            onChangeText={(text) => this.setState({firstname: text})}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Icon style={styles.inputUsername} name="user" size={22} color="#fff"/>
+                        <TextInput
+                            ref="email"
+                            style={[styles.input, styles.whiteFont]}
+                            placeholder={I18n.t("lastname")}
+                            placeholderTextColor="#5F5F5F"
+                            value={this.state.lastname}
+                            onChangeText={(text) => this.setState({lastname: text})}
+                        />
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Icon style={styles.inputUsername} name="envelope" size={22} color="#fff"/>
                         <TextInput
                             ref="email"
                             style={[styles.input, styles.whiteFont]}
@@ -116,9 +142,10 @@ class Register extends Component {
                         />
                     </View>
                 </View>
-                <TouchableOpacity onPress={this.onPress.bind(this)}>
+                <TouchableOpacity onPress={this.onPress.bind(this)} disabled={this.state.btn_loading}>
                     <View style={styles.signin}>
                         <Text style={styles.whiteFont}>{I18n.t('register')}</Text>
+                        {this._renderButtonLoading()}
                     </View>
                 </TouchableOpacity>
                 <View style={styles.signup}>
@@ -129,6 +156,18 @@ class Register extends Component {
                 </View>
             </View>
         );
+    }
+
+    _renderButtonLoading() {
+        if (this.state.btn_loading) {
+            return (
+                <ActivityIndicatorIOS
+                    color="#fff"
+                    animating={true}
+                    size="small"
+                />
+            )
+        }
     }
 
     routeToLogin() {

@@ -33,7 +33,15 @@ export function registerTranslation() {
             delete: 'Delete',
             cancel: 'Cancel',
             input_placeholder: 'Enter Content',
-            save: 'Save'
+            save: 'Save',
+            firstname: 'Firstname',
+            lastname: 'Lastname',
+            telephone: 'Phone',
+            service_portal: 'Service-Portal',
+            phone_call: 'Call',
+            send_email: 'Send E-Mail',
+            share: 'Share',
+            service_info_text: 'Sie erreichen unseren Kundendienst für Fragen, Reklamationen und Beanstandungen werktags von 9:00 Uhr bis 17:00 Uhr unter der Telefonnummer +49 (0)221-292044-0 sowie per E-Mail unter support@app-arena.com.'
         },
         de: {
             login: 'Anmelden',
@@ -63,7 +71,15 @@ export function registerTranslation() {
             delete: 'Löschen',
             cancel: 'Abbrechen',
             input_placeholder: 'Inhalt hier einfügen',
-            save: 'Speichern'
+            save: 'Speichern',
+            firstname: 'Vorname',
+            lastname: 'Nachname',
+            telephone: 'Telefonnummer',
+            service_portal: 'Service-Portal',
+            phone_call: 'Service Anrufen',
+            send_email: 'Service E-mail senden',
+            share: 'Teilen',
+            service_info_text: 'Sie erreichen unseren Kundendienst für Fragen, Reklamationen und Beanstandungen werktags von 9:00 Uhr bis 17:00 Uhr unter der Telefonnummer +49 (0)221-292044-0 sowie per E-Mail unter support@app-arena.com.'
         }
     }
 }

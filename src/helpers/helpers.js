@@ -57,8 +57,8 @@ export function registerUser(username, email, password, companyId) {
     return axios.post(`${config.api_company_route}/${companyId}/users`,
         {
             username,
-            firstname: "blub",
-            lastname: "blub",
+            firstname,
+            lastname,
             email,
             password
         },
@@ -77,9 +77,11 @@ export function updateTranslationStringAction(appId, identifier, translation) {
 
 export function uploadCompanyMediaAction(companyId, file) {
     var data = new FormData();
-    data.append('file', file);
+    data.append('image', file);
     return axios.post(`${config.api_company_route}/${companyId}/media/upload`,
-        data);
+        data, {headers: {'Content-Type': 'multipart/form-data', Authorization: config.auth_token}}).then((dataObj) => {
+        return dataObj;
+    });
 }
 
 export function getConfigElement(appId, identifier) {

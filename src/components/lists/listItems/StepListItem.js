@@ -42,7 +42,7 @@ export default class AppList extends Component {
             return (
                 <View>
                     <View style={styles.row}>
-                        <View style={(this.props.config[this.props.rowData.identifier].type == "checkbox") ? styles.first : styles.firstCheckbox}>
+                        <View style={styles.firstCheckbox}>
                             <Text style={styles.rowText}>
                                 {this.props.config[this.props.rowData.identifier].name}
                             </Text>
@@ -62,7 +62,7 @@ export default class AppList extends Component {
                 <View>
                     <TouchableHighlight onPress={this._onPress.bind(this)}>
                         <View style={styles.row}>
-                            <View style={(this.props.config[this.props.rowData.identifier].type == "checkbox") ? styles.first : styles.firstCheckbox}>
+                            <View style={styles.first}>
                                 <Text style={styles.rowText}>
                                     {this.props.config[this.props.rowData.identifier].name}
                                 </Text>

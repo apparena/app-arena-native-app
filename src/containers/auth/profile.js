@@ -5,6 +5,7 @@ import React from "react";
 import ReactNative from "react-native";
 import Component from "../../framework/component";
 import {renderPlaceholderView, generalStyles} from "../../framework/general";
+import {dataURItoBlob, blobToFile} from "../../helpers/image";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import I18n from "react-native-i18n";
@@ -78,7 +79,7 @@ class Profile extends Component {
                     skipBackup: true,
                     path: 'App-Arena'
                 },
-                noData: true,
+                noData: false,
                 allowsEditing: true
             };
 
@@ -103,11 +104,9 @@ class Profile extends Component {
                 } else {
                     uri = response.uri.replace('file://', '')
                 }
-                /*this.props.uploadCompanyMedia(this.props.auth.companyId, {
-                 filename: 'file', // this is what your server is looking for
-                 filepath: uri, // uri from response (local path of image on device)
-                 filetype: 'image/jpeg'
-                 });*/
+                var blob = dataURItoBlob('data:image/jpeg;base64,' + response.data);
+                var file = blobToFile(blob, "name");
+                this.props.uploadCompanyMedia(this.props.auth.companyId, file);
                 self.setState({
                     user: Object.assign({}, self.state.user, {avatar: uri})
                 })
@@ -138,14 +137,14 @@ class Profile extends Component {
                 </View>
                 <View style={styles.infoBg}>
                     <View style={styles.inputView}>
-                        <Icon style={styles.icon} name="user" size={22} color="#2D343D"/>
+                        <Icon style={styles.icon} name="envelope" size={22} color="#2D343D"/>
                         <TextInput
                             style={styles.input}
                             ref="email"
                             placeholder={I18n.t("email")}
                             placeholderTextColor="#5F5F5F"
                             value={this.state.user.email}
-                            onChangeText={(text) => this.setState(Object.assign({}, self.state.user, {email: text}))}
+                            onChangeText={(text) => this.setState(Object.assign({}, this.state.user, {email: text}))}
                             autoCorrect={true}
                             keyboardType={'default'}
                             returnKeyType={'done'}
@@ -157,10 +156,40 @@ class Profile extends Component {
                         <TextInput
                             style={styles.input}
                             ref="email"
-                            placeholder={I18n.t("email")}
+                            placeholder={I18n.t("firstname")}
                             placeholderTextColor="#5F5F5F"
-                            value={this.state.user.email}
-                            onChangeText={(text) => this.setState(Object.assign({}, self.state.user, {email: text}))}
+                            value={this.state.user.firstName}
+                            onChangeText={(text) => this.setState(Object.assign({}, this.state.user, {firstName: text}))}
+                            autoCorrect={true}
+                            keyboardType={'default'}
+                            returnKeyType={'done'}
+                        />
+                    </View>
+                    <View style={styles.separator}/>
+                    <View style={styles.inputView}>
+                        <Icon style={styles.icon} name="user" size={22} color="#2D343D"/>
+                        <TextInput
+                            style={styles.input}
+                            ref="email"
+                            placeholder={I18n.t("lastname")}
+                            placeholderTextColor="#5F5F5F"
+                            value={this.state.user.lastName}
+                            onChangeText={(text) => this.setState(Object.assign({}, this.state.user, {lastName: text}))}
+                            autoCorrect={true}
+                            keyboardType={'default'}
+                            returnKeyType={'done'}
+                        />
+                    </View>
+                    <View style={styles.separator}/>
+                    <View style={styles.inputView}>
+                        <Icon style={styles.icon} name="phone" size={22} color="#2D343D"/>
+                        <TextInput
+                            style={styles.input}
+                            ref="email"
+                            placeholder={I18n.t("telephone")}
+                            placeholderTextColor="#5F5F5F"
+                            value={this.state.user.telephone}
+                            onChangeText={(text) => this.setState(Object.assign({}, this.state.user, {telephone: text}))}
                             autoCorrect={true}
                             keyboardType={'default'}
                             returnKeyType={'done'}

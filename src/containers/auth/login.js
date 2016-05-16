@@ -10,7 +10,8 @@ import {
     Image,
     TouchableOpacity,
     TouchableHighlight,
-    AsyncStorage
+    AsyncStorage,
+    ActivityIndicatorIOS
 } from "react-native";
 import Component from "../../framework/component";
 import I18n from "react-native-i18n";
@@ -23,7 +24,8 @@ class Login extends Component {
         return ({
             email: 'test@app-arena.com',
             password: '1234',
-            errorMessage: ''
+            errorMessage: '',
+            btn_loading: false
         });
     }
 
@@ -40,7 +42,8 @@ class Login extends Component {
                 error_msg = I18n.t('wrong_password');
             }
             this.setState({
-                errorMessage: error_msg
+                errorMessage: error_msg,
+                btn_loading: false
             })
         }
     }
@@ -56,12 +59,12 @@ class Login extends Component {
                         <Text style={styles.whiteFont}>{this.state.errorMessage}</Text>
                     </View>
                     <View style={styles.inputContainer}>
-                        <Icon style={styles.inputUsername} name="user" size={22} color="#fff"/>
+                        <Icon style={styles.inputUsername} name="envelope" size={22} color="#fff"/>
                         <TextInput
                             ref="email"
                             style={[styles.input, styles.whiteFont]}
                             placeholder={I18n.t('email')}
-                            placeholderTextColor="#FFF"
+                            placeholderTextColor="#5F5F5F"
                             value={this.state.email}
                             onChangeText={(text) => this.setState({email: text, errorMessage: ''})}
                             keyboardType="email-address"
@@ -76,16 +79,17 @@ class Login extends Component {
                             password={true}
                             style={[styles.input, styles.whiteFont]}
                             placeholder={I18n.t('password')}
-                            placeholderTextColor="#FFF"
+                            placeholderTextColor="#5F5F5F"
                             value={this.state.password}
                             onChangeText={(text) => this.setState({password: text, errorMessage: ''})}
                             returnKeyType="next"
                         />
                     </View>
                 </View>
-                <TouchableOpacity onPress={this.onPress.bind(this)}>
+                <TouchableOpacity onPress={this.onPress.bind(this)} disabled={this.state.btn_loading}>
                     <View style={styles.signin}>
                         <Text style={styles.whiteFont}>{I18n.t('login')}</Text>
+                        {this._renderButtonLoading()}
                     </View>
                 </TouchableOpacity>
                 <View style={styles.signup}>
@@ -98,12 +102,27 @@ class Login extends Component {
         );
     }
 
+    _renderButtonLoading() {
+        if (this.state.btn_loading) {
+            return (
+                <ActivityIndicatorIOS
+                    color="#fff"
+                    animating={true}
+                    size="small"
+                />
+            )
+        }
+    }
+
     routeToSignup() {
         this.props.changeAppRoot('register');
     }
 
     onPress() {
         if (this.state.email && this.state.password) {
+            this.setState({
+                btn_loading: true
+            });
             this.props.login(this.state.email, this.state.password);
         } else if (this.state.email) {
             this.refs.password.focus();
@@ -191,7 +210,7 @@ const styles = StyleSheet.create({
         color: '#D8D8D8'
     },
     whiteFont: {
-        color: '#FFF'
+        color: '#fff'
     }
 });
 

@@ -13,13 +13,15 @@ export var generalStyles = StyleSheet.create({
         flexDirection:'row'
     },
     rowText: {
-        fontSize: 15,
+        fontSize: 15
     },
     first: {
-        flex: .95
+        flex: .95,
+        justifyContent: 'center'
     },
     firstCheckbox: {
-        flex: .85
+        flex: .80,
+        justifyContent: 'center'
     },
     second: {
         flex: .05
@@ -35,7 +37,7 @@ export var generalStyles = StyleSheet.create({
     separator: {
         height: StyleSheet.hairlineWidth,
         backgroundColor: '#eee',
-        marginLeft: 15,
+        paddingLeft: 15,
     },
     loader: {
         flex: 1,

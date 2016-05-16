@@ -15,19 +15,18 @@ export function appInitialized() {
         }
 
         //Get Tab Icons
-        if (startRoot == 'after-login') {
-            var icons = {
-                person_selected: await Icon.getImageSource('ios-person', 30, '#2D343D'),
-                person: await Icon.getImageSource('ios-person-outline', 30, '#2D343D'),
-                world_selected: await Icon.getImageSource('ios-world', 30, '#2D343D'),
-                world: await Icon.getImageSource('ios-world-outline', 30, '#2D343D'),
-                list_selected: await Icon.getImageSource('ios-list', 30, '#2D343D'),
-                list: await Icon.getImageSource('ios-list-outline', 30, '#2D343D'),
-                chatboxes_selected: await Icon.getImageSource('ios-chatboxes', 30, '#2D343D'),
-                chatboxes: await Icon.getImageSource('ios-chatboxes-outline', 30, '#2D343D')
-            };
-            dispatch(addIcon(icons));
-        }
+        var icons = {
+            person_selected: await Icon.getImageSource('ios-person', 30, '#2D343D'),
+            person: await Icon.getImageSource('ios-person-outline', 30, '#2D343D'),
+            world_selected: await Icon.getImageSource('ios-world', 30, '#2D343D'),
+            world: await Icon.getImageSource('ios-world-outline', 30, '#2D343D'),
+            list_selected: await Icon.getImageSource('ios-list', 30, '#2D343D'),
+            list: await Icon.getImageSource('ios-list-outline', 30, '#2D343D'),
+            chatboxes_selected: await Icon.getImageSource('ios-chatboxes', 30, '#2D343D'),
+            chatboxes: await Icon.getImageSource('ios-chatboxes-outline', 30, '#2D343D')
+        };
+        dispatch(addIcon(icons));
+        
         dispatch(changeAppRoot(startRoot));
     };
 }
