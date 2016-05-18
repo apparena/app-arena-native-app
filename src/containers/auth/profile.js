@@ -5,7 +5,6 @@ import React from "react";
 import ReactNative from "react-native";
 import Component from "../../framework/component";
 import {renderPlaceholderView, generalStyles} from "../../framework/general";
-import {dataURItoBlob, blobToFile} from "../../helpers/image";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import I18n from "react-native-i18n";
@@ -98,15 +97,37 @@ class Profile extends Component {
             else {
                 // You can display the image using either:
                 //const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-                var uri;
+                var fileURL;
                 if (Platform.OS === 'android') {
-                    uri = response.uri
+                    fileURL = response.uri
                 } else {
-                    uri = response.uri.replace('file://', '')
+                    fileURL = response.uri.replace('file://', '')
                 }
-                var blob = dataURItoBlob('data:image/jpeg;base64,' + response.data);
-                var file = blobToFile(blob, "name");
-                this.props.uploadCompanyMedia(this.props.auth.companyId, file);
+                let data = new FormData();
+                if (fileURL) {
+                    data.append('image', {uri: fileURL, name: 'image.jpg', type: 'image/jpg'})
+                }
+                self.uploadImageToServer(data);
+            }
+        });
+    }
+
+    uploadImageToServer(data) {
+        var self = this;
+        const config = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data; boundary=6ff46e0b6b5148d984f148b6542e5a5d',
+                'Authorization': '123456'
+            },
+            body: data
+        };
+        fetch(`http://manager/api/v2/companies/${this.props.auth.companyId}/media/upload`, config).then(function (response) {
+            return response.json();
+        }).then(function (result) {
+            if (result.status == "201") {
+                var uri = result.files[0].uri;
                 self.setState({
                     user: Object.assign({}, self.state.user, {avatar: uri})
                 })

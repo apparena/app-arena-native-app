@@ -17,8 +17,8 @@ export function addMedia(files) {
     };
 }
 
-export function uploadCompanyMedia(companyId, filename, file) {
-    const request = uploadCompanyMediaAction(companyId, filename, file);
+export function uploadCompanyMedia(companyId, file) {
+    const request = uploadCompanyMediaAction(companyId, file);
     return {
         type: actionTypes.uploadCompanyMedia,
         payload: request

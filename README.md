@@ -1,2 +1,9 @@
-# app-arena-native-app
-React Native App-Arena App
+# React Native App-Arena App
+
+
+## Installation & Usage
+
+```sh
+git clone 
+npm install
+```
