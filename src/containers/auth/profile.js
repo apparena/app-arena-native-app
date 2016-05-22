@@ -4,6 +4,7 @@ import * as mediaActions from "../../actions/media";
 import React from "react";
 import ReactNative from "react-native";
 import Component from "../../framework/component";
+import {uploadCompanyMediaAction} from "../../helpers/helpers";
 import {renderPlaceholderView, generalStyles} from "../../framework/general";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
@@ -107,30 +108,8 @@ class Profile extends Component {
                 if (fileURL) {
                     data.append('image', {uri: fileURL, name: 'image.jpg', type: 'image/jpg'})
                 }
-                self.uploadImageToServer(data);
-            }
-        });
-    }
-
-    uploadImageToServer(data) {
-        var self = this;
-        const config = {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'multipart/form-data; boundary=6ff46e0b6b5148d984f148b6542e5a5d',
-                'Authorization': '123456'
-            },
-            body: data
-        };
-        fetch(`http://manager/api/v2/companies/${this.props.auth.companyId}/media/upload`, config).then(function (response) {
-            return response.json();
-        }).then(function (result) {
-            if (result.status == "201") {
-                var uri = result.files[0].uri;
-                self.setState({
-                    user: Object.assign({}, self.state.user, {avatar: uri})
-                })
+                var uploadObj = uploadCompanyMediaAction(self.props.auth.companyId, data);
+                console.log(uploadObj);
             }
         });
     }

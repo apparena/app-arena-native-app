@@ -53,12 +53,13 @@ export function createCompanyAction(name) {
     });
 }
 
-export function registerUser(username, email, password, companyId) {
+export function registerUser(username, email, password, companyId, firstname, lastname) {
     return axios.post(`${config.api_company_route}/${companyId}/users`,
         {
             username,
             firstname,
             lastname,
+            displayName: firstname + ' ' + lastname,
             email,
             password
         },
@@ -75,20 +76,9 @@ export function updateTranslationStringAction(appId, identifier, translation) {
         {headers: config.api.headers});
 }
 
-/*export function uploadCompanyMediaAction(companyId, data) {
-    return axios.post(`${config.api_company_route}/${companyId}/media/upload`,
-        data, {headers: {'Content-Type': 'multipart/form-data', Authorization: config.auth_token}}).then((dataObj) => {
-        return dataObj;
-    });
-}*/
-
-export function uploadCompanyMediaAction(companyId, fileURL) {
-    let data = new FormData();
-    if (fileURL) {
-        data.append('image', {uri: fileURL, name: 'image.jpg', type: 'image/jpg'})
-    }
-    const fetchConfig = {
-        method: 'POST',
+export async function uploadCompanyMediaAction(companyId, data) {
+    let fetchConfig = {
+        method: 'POST',/**/
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'multipart/form-data; boundary=6ff46e0b6b5148d984f148b6542e5a5d',
@@ -96,31 +86,11 @@ export function uploadCompanyMediaAction(companyId, fileURL) {
         },
         body: data
     };
-    return fetch(`${config.api_base_url}${config.api_app_route}/${companyId}/media/upload`, fetchConfig)
-        .then((dataObj) => {
-            return dataObj;
-        });
 
-}
-
-export async function uploadCompanyMediaAsyncAction(companyId, fileURL) {
-    let data = new FormData();
-    if (fileURL) {
-        data.append('image', {uri: fileURL, name: 'image.jpg', type: 'image/jpg'})
-    }
-    const fetchConfig = {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'multipart/form-data; boundary=6ff46e0b6b5148d984f148b6542e5a5d',
-            'Authorization': config.auth_token
-        },
-        body: data
-    };
     try {
-        let response = await fetch(`${config.api_base_url}${config.api_app_route}/${companyId}/media/upload`, fetchConfig);
+        let response = await fetch(`${config.api_base_url}${config.api_company_route}/1/media/upload`, fetchConfig);
         return await response.json();
-    } catch(error) {
+    } catch (error) {
         // Handle error
         console.error(error);
     }

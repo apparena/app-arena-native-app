@@ -1,7 +1,18 @@
 import * as authActions from "../../actions/auth";
 import * as appActions from "../../actions/app";
 import React from "react";
-import {StyleSheet, Text, TextInput, View, WebView, Image, TouchableOpacity, TouchableHighlight} from "react-native";
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    ScrollView,
+    View,
+    WebView,
+    Image,
+    TouchableOpacity,
+    TouchableHighlight,
+    AsyncStorage
+} from "react-native";
 import Component from "../../framework/component";
 import I18n from "react-native-i18n";
 import {connect} from "react-redux";
@@ -32,7 +43,7 @@ class Register extends Component {
         }
         if (nextProps.auth.status === 201) {
             if (nextProps.auth.authType == "company") {
-                this.props.register(this.state.username, this.state.email, this.state.password, nextProps.auth.companyId)
+                this.props.register(this.state.username, this.state.email, this.state.password, nextProps.auth.companyId, this.state.firstname, this.state.lastname)
             }
             if (nextProps.auth.authType == "user") {
                 this.props.login(this.state.email, this.state.password)
@@ -99,6 +110,7 @@ class Register extends Component {
                         <Icon style={styles.inputUsername} name="envelope" size={22} color="#fff"/>
                         <TextInput
                             ref="email"
+                            keyboard="email-address"
                             style={[styles.input, styles.whiteFont]}
                             placeholder={I18n.t("email")}
                             placeholderTextColor="#5F5F5F"
@@ -215,12 +227,12 @@ const styles = StyleSheet.create({
     header: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: .3,
+        flex: .2,
         backgroundColor: 'transparent'
     },
     mark: {
-        width: 150,
-        height: 150
+        width: 100,
+        height: 100
     },
     signin: {
         backgroundColor: '#478AB8',
@@ -235,7 +247,7 @@ const styles = StyleSheet.create({
     inputs: {
         marginTop: 10,
         marginBottom: 10,
-        flex: .25
+        flex: .35
     },
     inputPassword: {
         marginLeft: 15,

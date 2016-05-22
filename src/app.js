@@ -26,12 +26,14 @@ export default class App {
         let {root} = store.getState().app;
         const {icons} = store.getState().icons;
         const {isAuthenticated} = store.getState().auth;
+        const isConnected = store.getState().netInfo;
         if (!isAuthenticated && root != "register") {
             root = "login";
         }
-        // handle a root change
-        // if your app doesn't change roots in runtime, you can remove onStoreUpdate() altogether
-        if (this.currentRoot != root) {
+        if (!isConnected) {
+            root = "notConnected";
+        }
+        if (this.currentRoot != root && root) {
             this.currentRoot = root;
             this.startApp(root, icons);
         }
@@ -39,6 +41,18 @@ export default class App {
 
     startApp(root, icons) {
         switch (root) {
+            case 'notConnected':
+                Navigation.startSingleScreenApp({
+                    screen: {
+                        screen: 'elements.NoConnection',
+                        title: 'Login',
+                        navigatorStyle: {
+                            navBarHidden: true,
+                            statusBarTextColorScheme: 'light'
+                        }
+                    }
+                });
+                return;
             case 'login':
                 Navigation.startSingleScreenApp({
                     screen: {

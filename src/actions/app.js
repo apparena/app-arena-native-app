@@ -1,4 +1,4 @@
-import {AsyncStorage} from "react-native";
+import {AsyncStorage, NetInfo} from "react-native";
 import actionTypes from "./types";
 import jwtDecode from "jwt-decode";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -14,6 +14,9 @@ export function appInitialized() {
             dispatch(authenticate(token));
         }
 
+        //Check Internet Connection
+        dispatch(checkNetInfo());
+
         //Get Tab Icons
         var icons = {
             person_selected: await Icon.getImageSource('ios-person', 30, '#2D343D'),
@@ -26,7 +29,7 @@ export function appInitialized() {
             chatboxes: await Icon.getImageSource('ios-chatboxes-outline', 30, '#2D343D')
         };
         dispatch(addIcon(icons));
-        
+
         dispatch(changeAppRoot(startRoot));
     };
 }
@@ -45,6 +48,15 @@ export function authenticate(token) {
         token
     }
 }
+
+export function checkNetInfo() {
+    let request = NetInfo.isConnected.fetch();
+    return {
+        type: actionTypes.checkNetInfo,
+        payload: request
+    }
+}
+
 
 export function addIcon(icons) {
     return {

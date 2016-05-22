@@ -69,3 +69,13 @@ export function renderPlaceholderView() {
         </View>
     );
 }
+
+export function renderNoItemsView(text) {
+    return (
+        <View style={generalStyles.loader}>
+            <Text>
+                {text}
+            </Text>
+        </View>
+    );
+}

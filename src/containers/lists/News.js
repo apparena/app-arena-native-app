@@ -4,11 +4,11 @@ import * as newsActions from "../../actions/news";
 import React from "react";
 import {StyleSheet, Text, ListView, View, WebView, RefreshControl} from "react-native";
 import Component from "../../framework/component";
-import {generalStyles} from "../../framework/general";
-import {renderPlaceholderView} from "../../framework/general";
+import {generalStyles, renderPlaceholderView, renderNoItemsView} from "../../framework/general";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import NewsListItem from "../../components/lists/listItems/NewsListItem";
+import I18n from "react-native-i18n";
 
 class AppList extends Component {
     getInitState() {
@@ -60,27 +60,29 @@ class AppList extends Component {
         if (this.state.loading) {
             return renderPlaceholderView()
         } else {
-            return (
-                <View style={styles.page}>
-                    <ListView
-                        refreshControl={
+            if (this.state.dataSource.getRowCount()) {
+                return (
+                    <View style={styles.page}>
+                        <ListView
+                            refreshControl={
                           <RefreshControl
                             refreshing={this.state.refreshing}
                             onRefresh={this._onRefresh.bind(this)}
                           />
                         }
-                        dataSource={this.state.dataSource}
-                        renderRow={this.renderRow.bind(this)}
-                    />
-                </View>
-            );
+                            dataSource={this.state.dataSource}
+                            renderRow={this.renderRow.bind(this)}
+                        />
+                    </View>
+                );
+            } else {
+                return renderNoItemsView(I18n.t('no_news_availible'));
+            }
         }
     }
 }
 
-const styles = Object.assign({}, generalStyles, StyleSheet.create({
-
-}));
+const styles = Object.assign({}, generalStyles, StyleSheet.create({}));
 
 export default connect(
     (state) => ({

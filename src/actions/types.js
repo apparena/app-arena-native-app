@@ -3,6 +3,7 @@ export default {
     initialized: 'INITIALIZED',
     rootChanged: 'ROOT_CHANGED',
     addIcon: 'ADD_ICON',
+    checkNetInfo: `CHECK_NET_INFO`,
     //Auth
     loginUser: 'LOGIN_USER',
     registerUser: 'REGISTER_USER',

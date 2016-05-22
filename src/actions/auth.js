@@ -10,8 +10,8 @@ export function login(email, password) {
     }
 }
 
-export function register(username, email, password, companyId) {
-    let request = registerUser(username, email, password, companyId);
+export function register(username, email, password, companyId, firstname, lastname) {
+    let request = registerUser(username, email, password, companyId, firstname, lastname);
     return {
         type: actionTypes.registerUser,
         payload: request

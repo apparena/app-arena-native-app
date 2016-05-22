@@ -20,7 +20,7 @@ export default class AppList extends Component {
         return (
             <View>
                 <TouchableHighlight onPress={this._route.bind(this)}>
-                    <View>
+                    <View style={styles.newsItem}>
                         {this._renderNewsImage(uri)}
                         <View style={styles.row}>
                             <Text style={styles.rowText}>
@@ -56,6 +56,8 @@ export default class AppList extends Component {
 }
 
 const styles = Object.assign({}, generalStyles, StyleSheet.create({
+    newsItem: {
+    },
     rowTwo: {
         backgroundColor: 'white',
         paddingHorizontal: 15,
@@ -65,7 +67,9 @@ const styles = Object.assign({}, generalStyles, StyleSheet.create({
     },
     separator: {
         height: 10,
-        backgroundColor: '#eee'
+        backgroundColor: '#eee',
+        borderWidth: 0.5,
+        borderColor: '#d6d7da',
     },
     rowText: {
         fontSize: 12,

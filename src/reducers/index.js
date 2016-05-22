@@ -11,6 +11,7 @@ import display from "./display";
 import icons from "./icons";
 import locale from "./locale";
 import media from "./media";
+import netInfo from "./netInfo";
 import news from "./news";
 import overlays from "./overlays";
 import search from "./search";
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
     icons,
     locale,
     media,
+    netInfo,
     news,
     overlays,
     search,

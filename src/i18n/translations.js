@@ -41,6 +41,9 @@ export function registerTranslation() {
             phone_call: 'Call',
             send_email: 'Send E-Mail',
             share: 'Share',
+            no_apps_availible: 'No Apps available',
+            no_news_availible: 'No News available',
+            no_connection_info: 'It looks like you were not connected to the Internet - we can not find a network!',
             service_info_text: 'Sie erreichen unseren Kundendienst für Fragen, Reklamationen und Beanstandungen werktags von 9:00 Uhr bis 17:00 Uhr unter der Telefonnummer +49 (0)221-292044-0 sowie per E-Mail unter support@app-arena.com.'
         },
         de: {
@@ -79,6 +82,9 @@ export function registerTranslation() {
             phone_call: 'Service Anrufen',
             send_email: 'Service E-mail senden',
             share: 'Teilen',
+            no_apps_availible: 'Noch keine Apps vorhanden',
+            no_news_availible: 'Noch keine News vorhanden',
+            no_connection_info: 'Es sieht so aus als wärst du nicht mit dem Internet verbunden -  wir können kein Netzwerk finden!',
             service_info_text: 'Sie erreichen unseren Kundendienst für Fragen, Reklamationen und Beanstandungen werktags von 9:00 Uhr bis 17:00 Uhr unter der Telefonnummer +49 (0)221-292044-0 sowie per E-Mail unter support@app-arena.com.'
         }
     }

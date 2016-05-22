@@ -14,7 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 class ConfigElement extends Component {
     render() {
         return (
-            <View>
+            <ScrollView>
                 <View style={styles.avatarBg}>
                     <View style={styles.avatar}>
                         <View>
@@ -43,7 +43,7 @@ class ConfigElement extends Component {
                         </Icon.Button>
                     </View>
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 }
