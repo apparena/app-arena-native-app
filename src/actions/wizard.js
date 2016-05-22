@@ -2,7 +2,7 @@ import actionTypes from './types';
 
 import update from 'react-addons-update'
 import {wizard, step, configElement, video, info, preview, publish, localization} from '../config/wizard'
-import {getWizardJSON, updateWizardAction} from '../helpers/helpers'
+import {getWizardJSON, updateWizardAction} from '../helpers/requests'
 
 export function initAppArenaWizard(appId) {
     const request = getWizardJSON(appId);

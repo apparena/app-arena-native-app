@@ -4,7 +4,7 @@ import * as mediaActions from "../../actions/media";
 import React from "react";
 import ReactNative from "react-native";
 import Component from "../../framework/component";
-import {uploadCompanyMediaAction} from "../../helpers/helpers";
+import {uploadCompanyMediaAction} from "../../helpers/requests";
 import {renderPlaceholderView, generalStyles} from "../../framework/general";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
@@ -57,6 +57,11 @@ class Profile extends Component {
                 user: nextProps.user[this.props.auth.companyId]
             })
         }
+    }
+
+    updateUserData() {
+        let data = this.state.user;
+        this.props.updateCurrentUser(this.props.auth.companyId, this.props.auth.userId, data)
     }
 
 
@@ -195,6 +200,11 @@ class Profile extends Component {
                             returnKeyType={'done'}
                         />
                     </View>
+                    <TouchableOpacity onPress={this.updateUserData.bind(this)}>
+                        <View style={{width: 150, height: 100, backgroundColor: 'red'}}>
+                            <Text style={{margin: 30}}>Button</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         );

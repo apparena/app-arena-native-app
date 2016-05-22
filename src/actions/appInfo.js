@@ -1,6 +1,6 @@
 import actionTypes from './types';
 
-import {getAppInfoAction} from '../helpers/helpers'
+import {getAppInfoAction} from '../helpers/requests'
 
 export function getAppInfo(appId) {
     const request = getAppInfoAction(appId);

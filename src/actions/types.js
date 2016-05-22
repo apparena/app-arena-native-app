@@ -49,6 +49,7 @@ export default {
     toggleSearch: 'TOGGLE_SEARCH',
     //User
     getCurrentUser: 'GET_CURRENT_USER',
+    updateCurrentUser: 'UPDATE_CURRENT_USER',
     //News
     getNews: 'GET_NEWS'
 }

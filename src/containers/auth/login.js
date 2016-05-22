@@ -23,7 +23,7 @@ class Login extends Component {
     getInitState() {
         return ({
             email: 'test@app-arena.com',
-            password: '1234',
+            password: 'test123',
             errorMessage: '',
             btn_loading: false
         });

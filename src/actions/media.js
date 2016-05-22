@@ -1,6 +1,6 @@
 import actionTypes from './types';
 
-import {getAllMediaAction, uploadCompanyMediaAction} from '../helpers/helpers'
+import {getAllMediaAction, uploadCompanyMediaAction} from '../helpers/requests'
 
 export function getAllMedia(companyId, params) {
     const request = getAllMediaAction(companyId, params);

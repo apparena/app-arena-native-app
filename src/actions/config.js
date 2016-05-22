@@ -1,6 +1,6 @@
 import actionTypes from './types';
 
-import {getAppInfoAction, getAllConfig, getWizardJSON, updateConfigValueAction, getAllMediaAction, uploadCompanyMediaAction, getAllTranslationStringsAction, updateTranslationStringsAction} from '../helpers/helpers'
+import {getAppInfoAction, getAllConfig, getWizardJSON, updateConfigValueAction, getAllMediaAction, uploadCompanyMediaAction, getAllTranslationStringsAction, updateTranslationStringsAction} from '../helpers/requests'
 
 export function initAppArenaConfig(appId) {
     const request = getAllConfig(appId);

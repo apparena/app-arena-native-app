@@ -1,6 +1,6 @@
 import actionTypes from './types';
 
-import {getNewsAction} from '../helpers/helpers'
+import {getNewsAction} from '../helpers/requests'
 
 
 export function getNews() {

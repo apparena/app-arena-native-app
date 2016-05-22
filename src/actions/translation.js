@@ -1,6 +1,6 @@
 import actionTypes from './types';
 
-import {getAllTranslationStringsAction, updateTranslationStringAction} from '../helpers/helpers'
+import {getAllTranslationStringsAction, updateTranslationStringAction} from '../helpers/requests'
 
 export function getAllTranslationStrings(companyId) {
     const request = getAllTranslationStringsAction(companyId);

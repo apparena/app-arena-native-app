@@ -1,6 +1,6 @@
 import actionTypes from './types';
 
-import {getAppInfoAction, getAllConfig, getWizardJSON, updateConfigValueAction, getAllMediaAction, uploadCompanyMediaAction, getAllTranslationStringsAction} from '../helpers/helpers'
+import {getAppInfoAction, getAllConfig, getWizardJSON, updateConfigValueAction, getAllMediaAction, uploadCompanyMediaAction, getAllTranslationStringsAction} from '../helpers/requests'
 
 export function initAppId(appId) {
     return {

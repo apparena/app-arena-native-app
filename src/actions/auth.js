@@ -1,6 +1,6 @@
 import {AsyncStorage} from "react-native";
 import actionTypes from "../actions/types";
-import {loginUser, registerUser, createCompanyAction} from "../helpers/helpers";
+import {loginUser, registerUser, createCompanyAction} from "../helpers/requests";
 
 export function login(email, password) {
     let request = loginUser(email, password);

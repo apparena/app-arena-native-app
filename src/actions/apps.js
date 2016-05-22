@@ -1,6 +1,6 @@
 import actionTypes from './types';
 
-import {getApps} from '../helpers/helpers'
+import {getApps} from '../helpers/requests'
 
 
 export function getUsersApps(token) {
