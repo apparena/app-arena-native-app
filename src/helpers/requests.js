@@ -127,7 +127,7 @@ export function updateTranslationStringAction(appId, identifier, translation) {
  * @param data
  * @returns {*}
  */
-export async function uploadCompanyMediaAction(companyId, data) {
+export function uploadCompanyMediaAction(companyId, data) {
     let fetchConfig = {
         method: 'POST',
         headers: {
@@ -139,8 +139,7 @@ export async function uploadCompanyMediaAction(companyId, data) {
     };
 
     try {
-        let response = await fetch(`${config.api_base_url}${config.api_company_route}/${companyId}/media/upload`, fetchConfig);
-        return await response.json();
+        return fetch(`${config.api_base_url}${config.api_company_route}/${companyId}/media`, fetchConfig);
     } catch (error) {
         // Handle error
         console.error(error);

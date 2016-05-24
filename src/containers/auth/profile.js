@@ -60,7 +60,12 @@ class Profile extends Component {
     }
 
     updateUserData() {
-        let data = this.state.user;
+        let data = {
+            firstname: this.state.user.firstName,
+            lastname: this.state.user.lastName,
+            avatar: this.state.user.avatar,
+            telephone: this.state.user.telephone
+        };
         this.props.updateCurrentUser(this.props.auth.companyId, this.props.auth.userId, data)
     }
 
@@ -89,8 +94,6 @@ class Profile extends Component {
             };
 
         ImagePickerManager.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
-
             if (response.didCancel) {
                 console.log('User cancelled photo picker');
             }
@@ -113,8 +116,18 @@ class Profile extends Component {
                 if (fileURL) {
                     data.append('image', {uri: fileURL, name: 'image.jpg', type: 'image/jpg'})
                 }
-                var uploadObj = uploadCompanyMediaAction(self.props.auth.companyId, data);
-                console.log(uploadObj);
+                uploadCompanyMediaAction(self.props.auth.companyId, data)
+                    .then((response) => response.json())
+                    .then((result) => {
+                        if (result.status == "201") {
+                            self.setState({
+                                user: Object.assign({}, self.state.user, {avatar: result.files[0].uri})
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.warn(error);
+                    });
             }
         });
     }
@@ -137,7 +150,7 @@ class Profile extends Component {
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.displayName}>
-                        {this.state.user.displayname}
+                        {(this.state.user.displayname) ? this.state.user.displayname : this.state.user.firstName + ' ' + this.state.user.lastName}
                     </Text>
                 </View>
                 <View style={styles.infoBg}>
@@ -149,7 +162,7 @@ class Profile extends Component {
                             placeholder={I18n.t("email")}
                             placeholderTextColor="#5F5F5F"
                             value={this.state.user.email}
-                            onChangeText={(text) => this.setState(Object.assign({}, this.state.user, {email: text}))}
+                            onChangeText={(text) => this.setState({user: Object.assign({}, this.state.user, {email: text})})}
                             autoCorrect={true}
                             keyboardType={'default'}
                             returnKeyType={'done'}
@@ -164,7 +177,7 @@ class Profile extends Component {
                             placeholder={I18n.t("firstname")}
                             placeholderTextColor="#5F5F5F"
                             value={this.state.user.firstName}
-                            onChangeText={(text) => this.setState(Object.assign({}, this.state.user, {firstName: text}))}
+                            onChangeText={(text) => this.setState({user: Object.assign({}, this.state.user, {firstName: text})})}
                             autoCorrect={true}
                             keyboardType={'default'}
                             returnKeyType={'done'}
@@ -179,7 +192,7 @@ class Profile extends Component {
                             placeholder={I18n.t("lastname")}
                             placeholderTextColor="#5F5F5F"
                             value={this.state.user.lastName}
-                            onChangeText={(text) => this.setState(Object.assign({}, this.state.user, {lastName: text}))}
+                            onChangeText={(text) => this.setState({user: Object.assign({}, this.state.user, {lastName: text})})}
                             autoCorrect={true}
                             keyboardType={'default'}
                             returnKeyType={'done'}
@@ -194,7 +207,7 @@ class Profile extends Component {
                             placeholder={I18n.t("telephone")}
                             placeholderTextColor="#5F5F5F"
                             value={this.state.user.telephone}
-                            onChangeText={(text) => this.setState(Object.assign({}, this.state.user, {telephone: text}))}
+                            onChangeText={(text) => this.setState({user: Object.assign({}, this.state.user, {telephone: text})})}
                             autoCorrect={true}
                             keyboardType={'default'}
                             returnKeyType={'done'}

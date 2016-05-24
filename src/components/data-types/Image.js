@@ -3,10 +3,12 @@ import reactNative from "react-native";
 import Component from "../../framework/component";
 const {View, Image, TouchableOpacity, Platform, NativeModules: {ImagePickerManager}} = reactNative;
 import I18n from "react-native-i18n";
+import {uploadCompanyMediaAction} from '../../helpers/requests'
 
 
 export default class ImageScreen extends Component {
     selectPhotoTapped() {
+        let self = this;
         const options = {
             title: I18n.t('image_picker'),
             takePhotoButtonTitle: I18n.t('take_image'),
@@ -35,18 +37,26 @@ export default class ImageScreen extends Component {
             else {
                 // You can display the image using either:
                 //const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-                var uri;
+                var fileURL;
                 if (Platform.OS === 'android') {
-                    uri = response.uri
+                    fileURL = response.uri
                 } else {
-                    uri = response.uri.replace('file://', '')
+                    fileURL = response.uri.replace('file://', '')
                 }
-                this.props.uploadCompanyMedia(this.props.auth.companyId, {
-                    filename: 'file', // this is what your server is looking for
-                    filepath: uri, // uri from response (local path of image on device)
-                    filetype: 'image/jpeg'
-                });
-                this.props.setValue(uri)
+                let data = new FormData();
+                if (fileURL) {
+                    data.append('image', {uri: fileURL, name: self.props.configId + '.jpg', type: 'image/jpg'})
+                }
+                uploadCompanyMediaAction(self.props.auth.companyId, data)
+                    .then((response) => response.json())
+                    .then((result) => {
+                        if (result.status == "201") {
+                            this.props.setValue(result.files[0].uri)
+                        }
+                    })
+                    .catch((error) => {
+                        console.warn(error);
+                    });
             }
         });
     }
