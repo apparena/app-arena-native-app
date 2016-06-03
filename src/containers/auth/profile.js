@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import I18n from "react-native-i18n";
 import Icon from "react-native-vector-icons/FontAwesome";
-const {Text, TextInput, Image, View, ScrollView, TouchableOpacity, StyleSheet, Platform, NativeModules: {ImagePickerManager}} = ReactNative;
+const {Text, TextInput, Image, View, ScrollView, TouchableOpacity, TouchableHighlight, StyleSheet, Platform, NativeModules: {ImagePickerManager}} = ReactNative;
 
 // this is a traditional React component connected to the redux store
 class Profile extends Component {
@@ -60,12 +60,16 @@ class Profile extends Component {
     }
 
     updateUserData() {
-        let data = {
-            firstname: this.state.user.firstName,
-            lastname: this.state.user.lastName,
-            avatar: this.state.user.avatar,
-            telephone: this.state.user.telephone
-        };
+        let data = {};
+        if (this.state.user.firstName !== this.props.user[this.props.auth.companyId].firstName) {
+            data.firstname = this.state.user.firstName
+        }
+        if (this.state.user.lastName !== this.props.user[this.props.auth.companyId].lastName) {
+            data.lastname = this.state.user.lastName
+        }
+        if (this.state.user.avatar !== this.props.user[this.props.auth.companyId].avatar) {
+            data.avatar = this.state.user.avatar
+        }
         this.props.updateCurrentUser(this.props.auth.companyId, this.props.auth.userId, data)
     }
 
@@ -85,6 +89,7 @@ class Profile extends Component {
                 takePhotoButtonTitle: I18n.t('take_image'),
                 chooseFromLibraryButtonTitle: I18n.t('choose_image'),
                 cancelButtonTitle: I18n.t('cancel'),
+                quality: 1,
                 storageOptions: {
                     skipBackup: true,
                     path: 'App-Arena'
@@ -132,11 +137,25 @@ class Profile extends Component {
         });
     }
 
+    checkButton() {
+        if (this.state.user.firstName !== this.props.user[this.props.auth.companyId].firstName) {
+            return false;
+        }
+        if (this.state.user.lastName !== this.props.user[this.props.auth.companyId].lastName) {
+            return false;
+        }
+        if (this.state.user.avatar !== this.props.user[this.props.auth.companyId].avatar) {
+            return false;
+        }
+        return true;
+    }
+
     render() {
         if (this.state.renderPlaceholderOnly) {
             return renderPlaceholderView();
         }
 
+        let disabled = this.checkButton();
         return (
             <ScrollView style={styles.page}>
                 <View style={styles.avatarBg}>
@@ -155,28 +174,13 @@ class Profile extends Component {
                 </View>
                 <View style={styles.infoBg}>
                     <View style={styles.inputView}>
-                        <Icon style={styles.icon} name="envelope" size={22} color="#2D343D"/>
-                        <TextInput
-                            style={styles.input}
-                            ref="email"
-                            placeholder={I18n.t("email")}
-                            placeholderTextColor="#5F5F5F"
-                            value={this.state.user.email}
-                            onChangeText={(text) => this.setState({user: Object.assign({}, this.state.user, {email: text})})}
-                            autoCorrect={true}
-                            keyboardType={'default'}
-                            returnKeyType={'done'}
-                        />
-                    </View>
-                    <View style={styles.separator}/>
-                    <View style={styles.inputView}>
                         <Icon style={styles.icon} name="user" size={22} color="#2D343D"/>
                         <TextInput
                             style={styles.input}
                             ref="email"
                             placeholder={I18n.t("firstname")}
                             placeholderTextColor="#5F5F5F"
-                            value={this.state.user.firstName}
+                            value={this.state.user.firstName || this.state.user.firstname}
                             onChangeText={(text) => this.setState({user: Object.assign({}, this.state.user, {firstName: text})})}
                             autoCorrect={true}
                             keyboardType={'default'}
@@ -191,33 +195,23 @@ class Profile extends Component {
                             ref="email"
                             placeholder={I18n.t("lastname")}
                             placeholderTextColor="#5F5F5F"
-                            value={this.state.user.lastName}
+                            value={this.state.user.lastName || this.state.user.lastname}
                             onChangeText={(text) => this.setState({user: Object.assign({}, this.state.user, {lastName: text})})}
                             autoCorrect={true}
                             keyboardType={'default'}
                             returnKeyType={'done'}
                         />
                     </View>
-                    <View style={styles.separator}/>
-                    <View style={styles.inputView}>
-                        <Icon style={styles.icon} name="phone" size={22} color="#2D343D"/>
-                        <TextInput
-                            style={styles.input}
-                            ref="email"
-                            placeholder={I18n.t("telephone")}
-                            placeholderTextColor="#5F5F5F"
-                            value={this.state.user.telephone}
-                            onChangeText={(text) => this.setState({user: Object.assign({}, this.state.user, {telephone: text})})}
-                            autoCorrect={true}
-                            keyboardType={'default'}
-                            returnKeyType={'done'}
-                        />
-                    </View>
-                    <TouchableOpacity onPress={this.updateUserData.bind(this)}>
-                        <View style={{width: 150, height: 100, backgroundColor: 'red'}}>
-                            <Text style={{margin: 30}}>Button</Text>
+                    <View style={styles.sectionSeparator}/>
+                    <TouchableHighlight disabled={disabled} onPress={this.updateUserData.bind(this)}>
+                        <View style={styles.row}>
+                            <View style={styles.first}>
+                                <Text style={[styles.rowText, (disabled)&& styles.disabled]}>
+                                    {I18n.t('update_profile')}
+                                </Text>
+                            </View>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableHighlight>
                 </View>
             </ScrollView>
         );
@@ -240,7 +234,7 @@ const styles = Object.assign({}, generalStyles, StyleSheet.create({
     },
     icon: {
         flex: 0.1,
-        marginLeft: 15,
+        marginLeft: 5,
         width: 20,
         height: 20
     },
@@ -281,10 +275,18 @@ const styles = Object.assign({}, generalStyles, StyleSheet.create({
         textAlign: 'right',
         color: '#fff'
     },
+    disabled: {
+        color: '#ccc'
+    },
     input: {
         flex: .9,
         height: 20,
         fontSize: 14
+    },
+    sectionSeparator: {
+        backgroundColor: '#ebebeb',
+        height: 30,
+
     }
 }));
 

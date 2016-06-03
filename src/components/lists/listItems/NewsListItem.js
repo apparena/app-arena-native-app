@@ -37,7 +37,6 @@ export default class AppList extends Component {
                         </View>
                     </View>
                 </TouchableHighlight>
-                <View style={styles.separator}/>
             </View>
         );
     }
@@ -56,8 +55,6 @@ export default class AppList extends Component {
 }
 
 const styles = Object.assign({}, generalStyles, StyleSheet.create({
-    newsItem: {
-    },
     rowTwo: {
         backgroundColor: 'white',
         paddingHorizontal: 15,
@@ -65,16 +62,10 @@ const styles = Object.assign({}, generalStyles, StyleSheet.create({
         flex: 1,
         flexDirection: 'row'
     },
-    separator: {
-        height: 10,
-        backgroundColor: '#eee',
-        borderWidth: 0.5,
-        borderColor: '#d6d7da',
-    },
     rowText: {
         fontSize: 12,
         textAlign: 'left',
-        flex: 0.8
+        flex: 0.7
     },
     rowImage: {
         flex: 1,
@@ -85,7 +76,7 @@ const styles = Object.assign({}, generalStyles, StyleSheet.create({
         fontSize: 12,
         fontWeight: '300',
         textAlign: 'right',
-        flex: 0.2
+        flex: 0.3
     },
     rowAuthor: {
         fontSize: 10,

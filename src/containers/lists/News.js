@@ -72,6 +72,7 @@ class AppList extends Component {
                         }
                             dataSource={this.state.dataSource}
                             renderRow={this.renderRow.bind(this)}
+                            renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
                         />
                     </View>
                 );
@@ -82,7 +83,14 @@ class AppList extends Component {
     }
 }
 
-const styles = Object.assign({}, generalStyles, StyleSheet.create({}));
+const styles = Object.assign({}, generalStyles, StyleSheet.create({
+    separator: {
+        height: 10,
+        backgroundColor: '#eee',
+        borderWidth: 0.5,
+        borderColor: '#d6d7da'
+    }
+}));
 
 export default connect(
     (state) => ({

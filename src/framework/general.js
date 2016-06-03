@@ -9,8 +9,8 @@ export var generalStyles = StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: 15,
         paddingVertical: 10,
-        flex:1,
-        flexDirection:'row'
+        flex: 1,
+        flexDirection: 'row'
     },
     rowText: {
         fontSize: 15

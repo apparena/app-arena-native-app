@@ -68,6 +68,7 @@ class Register extends Component {
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Image style={styles.mark} source={require('../../../assets/img/apparena.png')}/>
+                    <Text style={styles.brand}>App-Arena</Text>
                 </View>
                 <View style={styles.inputs}>
                     <View style={styles.errorContainer}>
@@ -76,7 +77,7 @@ class Register extends Component {
                     <View style={styles.inputContainer}>
                         <Icon style={styles.inputUsername} name="user" size={22} color="#fff"/>
                         <TextInput
-                            ref="email"
+                            ref="username"
                             style={[styles.input, styles.whiteFont]}
                             placeholder={I18n.t("username")}
                             placeholderTextColor="#5F5F5F"
@@ -87,7 +88,7 @@ class Register extends Component {
                     <View style={styles.inputContainer}>
                         <Icon style={styles.inputUsername} name="user" size={22} color="#fff"/>
                         <TextInput
-                            ref="email"
+                            ref="firstname"
                             style={[styles.input, styles.whiteFont]}
                             placeholder={I18n.t("firstname")}
                             placeholderTextColor="#5F5F5F"
@@ -98,7 +99,7 @@ class Register extends Component {
                     <View style={styles.inputContainer}>
                         <Icon style={styles.inputUsername} name="user" size={22} color="#fff"/>
                         <TextInput
-                            ref="email"
+                            ref="lastname"
                             style={[styles.input, styles.whiteFont]}
                             placeholder={I18n.t("lastname")}
                             placeholderTextColor="#5F5F5F"
@@ -233,6 +234,11 @@ const styles = StyleSheet.create({
     mark: {
         width: 100,
         height: 100
+    },
+    brand: {
+        fontSize: 15,
+        color: 'white',
+        fontWeight: 'bold'
     },
     signin: {
         backgroundColor: '#478AB8',

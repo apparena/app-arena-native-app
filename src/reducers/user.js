@@ -13,7 +13,7 @@ export default function userReducer(state = defaultState, action = {}) {
             return Object.assign({}, state, user);
         case actionTypes.updateCurrentUser:
             if (action.payload.data) {
-                user = action.payload.data._embedded.data;
+                user[action.payload.data.data.companyId] = action.payload.data.data;
             }
             return Object.assign({}, state, user);
         default:

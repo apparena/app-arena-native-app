@@ -54,7 +54,6 @@ export default class AppList extends Component {
                                 onValueChange={this.updateValue.bind(this)}/>
                         </View>
                     </View>
-                    <View style={styles.separator}/>
                 </View>
             )
         } else {
@@ -72,7 +71,6 @@ export default class AppList extends Component {
                             </View>
                         </View>
                     </TouchableHighlight>
-                    <View style={styles.separator}/>
                 </View>
             )
         }

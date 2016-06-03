@@ -33,7 +33,6 @@ export default class AppList extends Component {
                         </View>
                     </View>
                 </TouchableHighlight>
-                <View style={styles.separator}/>
             </View>
         );
     }

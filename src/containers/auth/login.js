@@ -22,8 +22,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 class Login extends Component {
     getInitState() {
         return ({
-            email: 'test@app-arena.com',
-            password: 'test123',
+            email: '',
+            password: '',
             errorMessage: '',
             btn_loading: false
         });
@@ -53,6 +53,7 @@ class Login extends Component {
             <View style={styles.container}>
                 <View style={styles.header}>
                     <Image style={styles.mark} source={require('../../../assets/img/apparena.png')}/>
+                    <Text style={styles.brand}>App-Arena</Text>
                 </View>
                 <View style={styles.inputs}>
                     <View style={styles.errorContainer}>
@@ -154,6 +155,11 @@ const styles = StyleSheet.create({
     mark: {
         width: 150,
         height: 150
+    },
+    brand: {
+        fontSize: 25,
+        color: 'white',
+        fontWeight: 'bold'
     },
     signin: {
         backgroundColor: '#478AB8',
