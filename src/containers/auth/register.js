@@ -11,7 +11,8 @@ import {
     Image,
     TouchableOpacity,
     TouchableHighlight,
-    AsyncStorage
+    AsyncStorage,
+    Dimensions
 } from "react-native";
 import Component from "../../framework/component";
 import I18n from "react-native-i18n";
@@ -64,13 +65,14 @@ class Register extends Component {
     }
 
     render() {
+        console.log(Dimensions.get('window'));
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Image style={styles.mark} source={require('../../../assets/img/apparena.png')}/>
+                    <Image resizeMode="contain" style={styles.mark} source={require('../../../assets/img/apparena.png')}/>
                     <Text style={styles.brand}>App-Arena</Text>
                 </View>
-                <View style={styles.inputs}>
+                <ScrollView scrollEnabled={(Dimensions.get('window').height < 667)} style={styles.inputs}>
                     <View style={styles.errorContainer}>
                         <Text style={styles.whiteFont}>{this.state.errorMessage}</Text>
                     </View>
@@ -154,7 +156,7 @@ class Register extends Component {
                             onChangeText={(text) => this.setState({passwordConfirm: text})}
                         />
                     </View>
-                </View>
+                </ScrollView>
                 <TouchableOpacity onPress={this.onPress.bind(this)} disabled={this.state.btn_loading}>
                     <View style={styles.signin}>
                         <Text style={styles.whiteFont}>{I18n.t('register')}</Text>
@@ -221,6 +223,7 @@ class Register extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        paddingTop: 20,
         flexDirection: 'column',
         flex: .5,
         backgroundColor: '#2D343D'
@@ -232,8 +235,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     mark: {
-        width: 100,
-        height: 100
+        flex: .1,
     },
     brand: {
         fontSize: 15,
@@ -253,7 +255,7 @@ const styles = StyleSheet.create({
     inputs: {
         marginTop: 10,
         marginBottom: 10,
-        flex: .35
+        flex: .45
     },
     inputPassword: {
         marginLeft: 15,

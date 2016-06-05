@@ -52,7 +52,7 @@ class Login extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Image style={styles.mark} source={require('../../../assets/img/apparena.png')}/>
+                    <Image resizeMode="contain" style={styles.mark} source={require('../../../assets/img/apparena.png')}/>
                     <Text style={styles.brand}>App-Arena</Text>
                 </View>
                 <View style={styles.inputs}>
@@ -142,8 +142,9 @@ class Login extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        paddingTop: 20,
         flexDirection: 'column',
-        flex: .5,
+        flex: 1,
         backgroundColor: '#2D343D'
     },
     header: {
@@ -153,8 +154,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     mark: {
-        width: 150,
-        height: 150
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
     },
     brand: {
         fontSize: 25,
