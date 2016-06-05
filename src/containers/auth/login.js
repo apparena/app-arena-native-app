@@ -6,6 +6,7 @@ import {
     Text,
     TextInput,
     View,
+    ScrollView,
     WebView,
     Image,
     TouchableOpacity,
@@ -154,9 +155,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     mark: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
+        width: 150,
+        height: 150
     },
     brand: {
         fontSize: 25,
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     inputs: {
         marginTop: 10,
         marginBottom: 10,
-        flex: .25
+        flex: .1
     },
     inputPassword: {
         marginLeft: 15,

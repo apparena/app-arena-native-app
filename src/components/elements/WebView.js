@@ -6,6 +6,7 @@ import Component from "../../framework/component";
 
 export default class WebViewComponent extends Component {
     render() {
+        console.log(this.props);
         return (
             <View>
                 <WebView

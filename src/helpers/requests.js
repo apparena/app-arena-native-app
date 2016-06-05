@@ -192,7 +192,7 @@ export function getAllConfig(appId) {
  * @returns {V}
  */
 export function getAppInfoAction(appId) {
-    return axios.get(`${config.api_app_route}/${appId}`, {headers: config.api.headers});
+    return axios.get(`${config.api_app_route}/${appId}/infos`, {headers: config.api.headers});
 }
 
 /**

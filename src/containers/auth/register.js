@@ -235,7 +235,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     mark: {
-        flex: .1,
+        width: 100,
+        height: 100
     },
     brand: {
         fontSize: 15,
