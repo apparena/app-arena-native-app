@@ -5,6 +5,7 @@ import * as appActions from "./actions/app";
 import configureStore from "./helpers/configure-store";
 import {registerScreens} from "./containers/index";
 import {registerTranslation} from "./i18n/translations";
+import I18n from "react-native-i18n";
 
 const state = window.__initialState;
 const store = configureStore(state);
@@ -45,7 +46,7 @@ export default class App {
                 Navigation.startSingleScreenApp({
                     screen: {
                         screen: 'elements.NoConnection',
-                        title: 'Login',
+                        title: 'NotConnected',
                         navigatorStyle: {
                             navBarHidden: true,
                             statusBarTextColorScheme: 'light'
@@ -57,7 +58,7 @@ export default class App {
                 Navigation.startSingleScreenApp({
                     screen: {
                         screen: 'auth.LoginScreen',
-                        title: 'Login',
+                        title: I18n.t('login'),
                         navigatorStyle: {
                             navBarHidden: true,
                             statusBarTextColorScheme: 'light'
@@ -69,10 +70,10 @@ export default class App {
                 Navigation.startSingleScreenApp({
                     screen: {
                         screen: 'auth.RegisterScreen',
-                        title: 'Anmelden',
+                        title: I18n.t('register'),
                         navigatorStyle: {
                             navBarHidden: true,
-                            statusBarTextColorScheme: 'light'
+                            statusBarTextColorScheme: 'dark'
                         }
                     }
                 });
@@ -125,7 +126,7 @@ export default class App {
                             screen: 'auth.ProfileScreen',
                             icon: icons.person,
                             selectedIcon: icons.person_selected,
-                            title: 'Profile',
+                            title: I18n.t('profile'),
                             navigatorStyle: {
                                 navBarTextColor: '#ffffff',
                                 navBarBackgroundColor: '#2D343D',
