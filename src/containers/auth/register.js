@@ -65,7 +65,6 @@ class Register extends Component {
     }
 
     render() {
-        console.log(Dimensions.get('window'));
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
