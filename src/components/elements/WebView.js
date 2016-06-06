@@ -1,7 +1,7 @@
 /* @flow */
 /*eslint-disable prefer-const */
 import React from "react";
-import {StyleSheet, Text, ListView, View, WebView, Dimensions} from "react-native";
+import {StyleSheet, Text, ListView, View, WebView, Dimensions, TouchableWithoutFeedback} from "react-native";
 import Component from "../../framework/component";
 
 export default class WebViewComponent extends Component {
@@ -14,6 +14,20 @@ export default class WebViewComponent extends Component {
             loading: true,
             scalesPageToFit: true
         };
+    }
+
+    componentDidMount() {
+        this.props.navigator.toggleTabs({
+            to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+            animated: true // does the toggle have transition animation or does it happen immediately (optional)
+        });
+    }
+
+    componentWillUnmount() {
+        this.props.navigator.toggleTabs({
+            to: 'shown', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+            animated: false // does the toggle have transition animation or does it happen immediately (optional)
+        });
     }
 
     render() {
@@ -57,6 +71,6 @@ const {height} = Dimensions.get('window');
 const styles = StyleSheet.create({
     webView: {
         backgroundColor: 'rgba(255,255,255,0.8)',
-        height: height-118,
+        height: height - 44,
     },
 });
