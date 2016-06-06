@@ -32,7 +32,7 @@ class ConfigElement extends Component {
                     <View style={styles.infoText}>
                         <Text>{I18n.t('service_info_text')}</Text>
                     </View>
-                    <TouchableHighlight onPress={() => Communications.phonecall('02212920440', true)}>
+                    <TouchableHighlight onPress={() => Communications.phonecall('022117734000', true)}>
                         <View style={styles.row}>
                             <View style={styles.first}>
                                 <Text style={styles.rowText}>
