@@ -23,7 +23,7 @@ class AppList extends Component {
 
     componentDidMount() {
         if (this.props.auth.isAuthenticated) {
-            this.props.getUsersApps(this.props.auth.token, {fields: 'name'});
+            this.props.getUsersApps(this.props.auth.token, {fields: 'name', orderdesc: 'appId'});
         }
     }
 
@@ -47,7 +47,7 @@ class AppList extends Component {
 
     _onRefresh() {
         this.setState({refreshing: true});
-        this.props.getUsersApps(this.props.auth.token, {fields: 'name'});
+        this.props.getUsersApps(this.props.auth.token, {fields: 'name', orderdesc: 'appId'});
     }
 
     renderRow(rowData) {

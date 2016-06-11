@@ -1,8 +1,3 @@
-import React from "react-native";
-import Root from "./src/containers/index";
+import App from './src/app';
 
-const {
-  AppRegistry
-} = React;
-
-AppRegistry.registerComponent("App", () => Root);
+const app = new App();
